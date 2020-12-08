@@ -5,6 +5,7 @@ export const GET_CURRENT_USER = gql`
         me {
             id
             tag
+            avatarURL
         }
     }
 `
