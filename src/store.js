@@ -1,4 +1,4 @@
-import {createStore} from "redux";
+/*import {createStore} from "redux";
 import {connect} from "react-redux";
 
 const initialState = {
@@ -22,3 +22,4 @@ export default store
 export const connectStore = (component) => connect(state => state, dispatch => ({
     setUser: (user) => dispatch({type: '@@UNIQUE/USER', payload: user})
 }))(component)
+*/

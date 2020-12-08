@@ -11,12 +11,6 @@ const theme = createMuiTheme({
 })
 
 class App extends React.Component {
-    componentDidMount() {
-        if (!localStorage.getItem('token')) {
-            this.props.setUser(false)
-        }
-    }
-
     render() {
         return (
             <MuiThemeProvider theme={theme}>
@@ -31,4 +25,4 @@ class App extends React.Component {
     }
 }
 
-export default connectStore(App);
+export default App;

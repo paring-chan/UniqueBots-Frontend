@@ -2,10 +2,15 @@ import React from 'react';
 import {AppBar, CircularProgress, IconButton, Toolbar, Typography} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import {Lock as LockIcon} from '@material-ui/icons'
-import {connectStore} from "../store";
 import config from "../config";
+import {useQuery} from "@apollo/client";
+import {GET_CURRENT_USER} from "../queries";
 
-const Header = ({user}) => {
+const Header = () => {
+    const user = null
+
+    const { loading, data, error } = useQuery(GET_CURRENT_USER)
+
     return (
         <>
             <AppBar color="inherit" style={{
@@ -20,7 +25,7 @@ const Header = ({user}) => {
                     </Typography>
                     <div style={{flexGrow: 1}}/>
                     {
-                        user === null ? <CircularProgress color="inherit"/> : user === false ?
+                        loading && !error ? <CircularProgress color="inherit"/> : error || !data?.me ?
                             <IconButton href={`https://discord.com/api/v8/oauth2/authorize?response_type=code&client_id=${config.clientID}&redirect_uri=${config.authRedirect}&scope=identify`}>
                                 <LockIcon/>
                             </IconButton> : '로그인됨'
@@ -31,4 +36,6 @@ const Header = ({user}) => {
     );
 };
 
-export default connectStore(Header);
+export default Header
+
+// export default connectStore(Header);
