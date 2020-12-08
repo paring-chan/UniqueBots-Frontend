@@ -1,9 +1,10 @@
 import React from 'react';
-import {AppBar, IconButton, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, CircularProgress, IconButton, Toolbar, Typography} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import {Lock as LockIcon} from '@material-ui/icons'
+import {connectStore} from "../store";
 
-const Header = () => {
+const Header = ({user}) => {
     return (
         <>
             <AppBar color="inherit" style={{
@@ -17,13 +18,15 @@ const Header = () => {
                         UniqueBots
                     </Typography>
                     <div style={{flexGrow: 1}}/>
-                    <IconButton>
-                        <LockIcon/>
-                    </IconButton>
+                    {
+                        user === null ? <CircularProgress color="inherit"/> : user === false ? <IconButton>
+                            <LockIcon/>
+                        </IconButton> : '로그인됨'
+                    }
                 </Toolbar>
             </AppBar>
         </>
     );
 };
 
-export default Header;
+export default connectStore(Header);
