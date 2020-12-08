@@ -1,10 +1,11 @@
 import React from 'react';
-import {AppBar, CircularProgress, IconButton, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, CircularProgress, Icon, IconButton, Toolbar, Typography} from "@material-ui/core";
 import {Link} from "react-router-dom";
-import {Lock as LockIcon} from '@material-ui/icons'
+import {Lock as LockIcon, Person} from '@material-ui/icons'
 import config from "../config";
 import {useQuery} from "@apollo/client";
 import {GET_CURRENT_USER} from "../queries";
+import UserMenu from "./UserMenu";
 
 const Header = () => {
     const user = null
@@ -28,7 +29,7 @@ const Header = () => {
                         loading && !error ? <CircularProgress color="inherit"/> : error || !data?.me ?
                             <IconButton href={`https://discord.com/api/v8/oauth2/authorize?response_type=code&client_id=${config.clientID}&redirect_uri=${config.authRedirect}&scope=identify`}>
                                 <LockIcon/>
-                            </IconButton> : '로그인됨'
+                            </IconButton> : <UserMenu user={data.me}/>
                     }
                 </Toolbar>
             </AppBar>
