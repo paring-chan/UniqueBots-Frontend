@@ -1,6 +1,7 @@
 import React from 'react';
-import {LockOpen, Person} from "@material-ui/icons";
+import {Add, LockOpen, Person, Settings} from "@material-ui/icons";
 import {Avatar, IconButton, ListItem, ListItemIcon, ListItemText, MenuItem, Popover} from "@material-ui/core";
+import {Link} from "react-router-dom";
 
 const UserMenu = ({user}) => {
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -23,6 +24,20 @@ const UserMenu = ({user}) => {
                     </ListItemIcon>
                     <ListItemText primary="프로필"/>
                 </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <Add/>
+                    </ListItemIcon>
+                    <ListItemText primary="봇 추가하기"/>
+                </ListItem>
+                {
+                    user.admin && <ListItem button component={Link} to="/admin">
+                        <ListItemIcon>
+                            <Settings/>
+                        </ListItemIcon>
+                        <ListItemText primary="관리"/>
+                    </ListItem>
+                }
                 <ListItem button onClick={() => {
                     localStorage.removeItem('token')
                     window.location.reload()
