@@ -3,6 +3,7 @@ import {AppBar, CircularProgress, IconButton, Toolbar, Typography} from "@materi
 import {Link} from "react-router-dom";
 import {Lock as LockIcon} from '@material-ui/icons'
 import {connectStore} from "../store";
+import config from "../config";
 
 const Header = ({user}) => {
     return (
@@ -19,9 +20,10 @@ const Header = ({user}) => {
                     </Typography>
                     <div style={{flexGrow: 1}}/>
                     {
-                        user === null ? <CircularProgress color="inherit"/> : user === false ? <IconButton>
-                            <LockIcon/>
-                        </IconButton> : '로그인됨'
+                        user === null ? <CircularProgress color="inherit"/> : user === false ?
+                            <IconButton href={`https://discord.com/api/v8/oauth2/authorize?response_type=code&client_id=${config.clientID}&redirect_uri=${config.authRedirect}&scope=identify`}>
+                                <LockIcon/>
+                            </IconButton> : '로그인됨'
                     }
                 </Toolbar>
             </AppBar>
