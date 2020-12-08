@@ -7,9 +7,7 @@ import {useQuery} from "@apollo/client";
 import {GET_CURRENT_USER} from "../queries";
 import UserMenu from "./UserMenu";
 
-const Header = () => {
-    const user = null
-
+const Header = ({beforeTitle=null}) => {
     const { loading, data, error } = useQuery(GET_CURRENT_USER)
 
     return (
@@ -17,10 +15,15 @@ const Header = () => {
             <AppBar color="inherit" style={{
                 boxShadow: 'none'
             }}>
-                <Toolbar>
+                <Toolbar style={{
+                    paddingLeft: 10,
+                    paddingRight: 10
+                }}>
+                    {beforeTitle}
                     <Typography component={Link} to="/" style={{
                         textDecoration: 'none',
-                        color: '#fff'
+                        color: '#fff',
+                        marginLeft: beforeTitle ? 10 : undefined
                     }} variant="h6">
                         UniqueBots
                     </Typography>

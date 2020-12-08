@@ -4,6 +4,7 @@ import HomePage from "./views/Home";
 import {createMuiTheme, CssBaseline, MuiThemeProvider} from "@material-ui/core";
 import Oauth2Callback from "./views/Oauth2Callback";
 import NotFound from "./views/NotFound";
+import AdminPage from "./views/Admin";
 
 const theme = createMuiTheme({
     palette: {
@@ -20,6 +21,7 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path="/" component={HomePage}/>
                         <Route exact path="/callback/auth" component={Oauth2Callback}/>
+                        <Route exact path="/admin" component={AdminPage}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </BrowserRouter>
