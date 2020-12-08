@@ -2,7 +2,7 @@ import React from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import HomePage from "./views/Home";
 import {createMuiTheme, CssBaseline, MuiThemeProvider} from "@material-ui/core";
-import {connectStore} from "./store";
+import Oauth2Callback from "./views/Oauth2Callback";
 
 const theme = createMuiTheme({
     palette: {
@@ -18,6 +18,7 @@ class App extends React.Component {
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/" component={HomePage}/>
+                        <Route exact path="/callback/auth" component={Oauth2Callback}/>
                     </Switch>
                 </BrowserRouter>
             </MuiThemeProvider>
