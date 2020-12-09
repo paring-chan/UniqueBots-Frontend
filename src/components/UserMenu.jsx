@@ -24,7 +24,7 @@ const UserMenu = ({user}) => {
                     </ListItemIcon>
                     <ListItemText primary="프로필"/>
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to="/addbot">
                     <ListItemIcon>
                         <Add/>
                     </ListItemIcon>

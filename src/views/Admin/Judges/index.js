@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import AdminLayout from "../../../components/AdminLayout";
 import adminOnly from "../../../util/adminOnly";
 import {gql, graphql} from "@apollo/react-hoc";
 import {CircularProgress, Paper, TableCell, TableContainer, TableRow} from "@material-ui/core";
@@ -7,17 +6,18 @@ import {CircularProgress, Paper, TableCell, TableContainer, TableRow} from "@mat
 class Judges extends Component {
     render() {
         return (
-            <AdminLayout>
+            <>
                 {
                     this.props.data.loading ? <CircularProgress/> : (
-                        this.props.data.error ? '에러' : <TableContainer component={Paper}>
+                        this.props.data.error ? '에러' : this.props.data.admin && this.props.data.admin.judges.pages !== 0 ? <TableContainer component={Paper}>
                             <TableRow>
                                 <TableCell/>
+                                <TableCell>ID</TableCell>
                             </TableRow>
-                        </TableContainer>
+                        </TableContainer> : '대기중인 심사가 없습니다.'
                     )
                 }
-            </AdminLayout>
+            </>
         );
     }
 }
@@ -25,7 +25,7 @@ class Judges extends Component {
 export default adminOnly(graphql(gql`
     query {
         admin {
-            judges {
+            judges(pending: true) {
                 pages
                 result {
                     id

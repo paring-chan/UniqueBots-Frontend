@@ -7,19 +7,19 @@ class AdminSidebar extends Component {
     render() {
         return (
             <Drawer open={this.props.open} onClose={this.props.close}>
-                <ListItem button component={Link} to="/admin">
+                <ListItem onClick={this.props.close} button component={Link} to="/admin">
                     <ListItemIcon>
                         <Dashboard/>
                     </ListItemIcon>
                     <ListItemText primary="대시보드"/>
                 </ListItem>
-                <ListItem button component={Link} to="/admin/bots">
+                <ListItem onClick={this.props.close} button component={Link} to="/admin/bots">
                     <ListItemIcon>
                         <SettingsApplications/>
                     </ListItemIcon>
                     <ListItemText primary="봇 관리"/>
                 </ListItem>
-                <ListItem button component={Link} to="/admin/judges">
+                <ListItem onClick={this.props.close} button component={Link} to="/admin/judges">
                     <ListItemIcon>
                         <Gavel/>
                     </ListItemIcon>

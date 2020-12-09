@@ -16,7 +16,11 @@ const Layout = ({children, header}) => {
         <div>
             <Header {...header}/>
             <div className={classes.toolbar}/>
-            {children}
+            <main style={{
+                padding: 10
+            }}>
+                {children}
+            </main>
         </div>
     );
 };

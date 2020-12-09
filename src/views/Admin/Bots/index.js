@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import AdminLayout from "../../../components/AdminLayout";
 import {CircularProgress, Grid, Typography} from "@material-ui/core";
 import adminOnly from "../../../util/adminOnly";
 import Bot from "./Bot";
@@ -10,7 +9,7 @@ class ManageBots extends Component {
         const {data: {loading, error, admin}} = this.props
 
         return (
-            <AdminLayout>
+            <>
                 <Typography variant="h6">
                     봇 관리
                 </Typography>
@@ -24,7 +23,7 @@ class ManageBots extends Component {
                         </Grid>
                     ))}
                 </Grid>}
-            </AdminLayout>
+            </>
         );
     }
 }

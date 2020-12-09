@@ -19,11 +19,7 @@ class AdminLayout extends Component {
                 )
             }}>
                 <AdminSidebar open={this.state.sidebar} close={() => this.setState({sidebar: false})}/>
-                <main style={{
-                    padding: 10
-                }}>
-                    {this.props.children}
-                </main>
+                {this.props.children}
             </Layout>
         );
     }
