@@ -18,11 +18,17 @@ const UserMenu = ({user}) => {
                     </ListItemIcon>
                     <ListItemText primary={user.tag}/>
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to={`/user/${user.id}`}>
                     <ListItemIcon>
                         <Person/>
                     </ListItemIcon>
                     <ListItemText primary="프로필"/>
+                </ListItem>
+                <ListItem button component={Link} to="/manage">
+                    <ListItemIcon>
+                        <Settings/>
+                    </ListItemIcon>
+                    <ListItemText primary="관리패널"/>
                 </ListItem>
                 <ListItem button component={Link} to="/addbot">
                     <ListItemIcon>
@@ -35,7 +41,7 @@ const UserMenu = ({user}) => {
                         <ListItemIcon>
                             <Settings/>
                         </ListItemIcon>
-                        <ListItemText primary="관리"/>
+                        <ListItemText primary="시스템 관리"/>
                     </ListItem>
                 }
                 <ListItem button onClick={() => {

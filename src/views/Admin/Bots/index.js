@@ -1,8 +1,17 @@
 import React, {Component} from 'react';
-import {CircularProgress, Grid, Typography} from "@material-ui/core";
+import {
+    CircularProgress,
+    Paper,
+    Table, TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
+} from "@material-ui/core";
 import adminOnly from "../../../util/adminOnly";
-import Bot from "./Bot";
 import {gql, graphql} from '@apollo/react-hoc'
+import Bot from "./Bot";
 
 class ManageBots extends Component {
     render() {
@@ -16,24 +25,34 @@ class ManageBots extends Component {
                 <Typography variant="body2">
                     등록된 봇을 조회/관리 할 수 있습니다.
                 </Typography>
-                {loading && !error ? <CircularProgress/> : !admin || error ? '에러처리': <Grid container spacing={1}>
-                    {admin.bots.result.map((bot, i) => (
-                        <Grid item xs={12} md={6} lg={4} key={i}>
-                            <Bot bot={bot}/>
-                        </Grid>
-                    ))}
-                </Grid>}
+                {loading && !error ? <CircularProgress/> : !admin || error ? '에러처리' : <>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>ID</TableCell>
+                                    <TableCell>짧은 설명</TableCell>
+                                    <TableCell>더보기</TableCell>
+                                    <TableCell>삭제</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    admin.bots.map((it, key) => <Bot key={key} bot={it}/>)
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>}
             </>
         );
     }
 }
 
 export default adminOnly(graphql(gql`
-query {
-    admin {
-        bots {
-            pages
-            result {
+    query {
+        admin {
+            bots {
                 id
                 approved
                 brief
@@ -41,5 +60,4 @@ query {
             }
         }
     }
-}
 `)(ManageBots));

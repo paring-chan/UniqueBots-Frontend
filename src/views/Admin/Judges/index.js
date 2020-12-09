@@ -15,6 +15,7 @@ import GREEN from "@material-ui/core/colors/green";
 import RED from "@material-ui/core/colors/red";
 import {apolloClient} from "../../../apollo";
 import {withSnackbar} from "notistack";
+import BLUE from "@material-ui/core/colors/blue";
 
 const APPROVE_QUERY = gql`
     query ($id: String!) {
@@ -111,6 +112,10 @@ class JudgeComponent extends Component {
                     {judge.bot?.brief}
                 </TableCell>
                 <TableCell>
+                    <Button variant="contained" href={`https://discord.com/api/oauth2/authorize?client_id=${judge.id}&scope=bot&permissions=0`} target="_blank"
+                            style={{width: '100%', boxShadow: 'none', backgroundColor: BLUE["500"], color: '#fff'}}>초대</Button>
+                </TableCell>
+                <TableCell>
                     <Button variant="contained"
                             style={{width: '100%', boxShadow: 'none', backgroundColor: GREEN["500"], color: '#fff'}}
                             onClick={() => this.setState({dialog__approve: true})}>승인</Button>
@@ -190,6 +195,7 @@ class Judges extends Component {
                                         <TableRow>
                                             <TableCell>ID</TableCell>
                                             <TableCell>짧은 설명</TableCell>
+                                            <TableCell>초대</TableCell>
                                             <TableCell>승인</TableCell>
                                             <TableCell>거부</TableCell>
                                         </TableRow>

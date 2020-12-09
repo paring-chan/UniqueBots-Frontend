@@ -9,6 +9,8 @@ import ManageBots from "./views/Admin/Bots";
 import Judges from "./views/Admin/Judges";
 import AddBotPage from "./views/AddBot";
 import LayoutProvider from "./components/LayoutProvider";
+import BotInfo from "./views/Bot";
+import ProfileView from "./views/Profille";
 
 const theme = createMuiTheme({
     palette: {
@@ -30,6 +32,8 @@ class App extends React.Component {
                             <Route exact path="/admin/bots" component={ManageBots}/>
                             <Route exact path="/admin/judges" component={Judges}/>
                             <Route exact path="/addbot" component={AddBotPage}/>
+                            <Route exact path="/bots/:id" component={BotInfo}/>
+                            <Route exact path="/user/:id" component={ProfileView}/>
                             <Route component={NotFound}/>
                         </Switch>
                     </LayoutProvider>
