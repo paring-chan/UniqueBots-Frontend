@@ -3,15 +3,14 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import {ApolloProvider} from "@apollo/client";
 import {apolloClient} from "./apollo";
-// import {Provider} from "react-redux";
-//import store from "./store";
+import {SnackbarProvider} from "notistack";
 
 ReactDOM.render(
-    //<Provider store={store}>
+    <SnackbarProvider>
         <ApolloProvider client={apolloClient}>
             <App/>
         </ApolloProvider>
-    //</Provider>
+    </SnackbarProvider>
     ,
-  document.getElementById('root')
+    document.getElementById('root')
 );

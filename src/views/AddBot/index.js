@@ -1,18 +1,47 @@
 import React, {Component} from 'react';
 import loginRequired from "../../util/loginRequired";
 import {Button, Grid, TextField, Typography} from "@material-ui/core";
+import {gql} from "@apollo/client";
+import {apolloClient} from "../../apollo";
+import {withSnackbar} from "notistack";
 
 class AddBotPage extends Component {
     state = {
         validate__clientID: '',
         clientID: '',
         brief: '',
-        description: ''
+        description: '',
+        processing: false
     }
 
-    validate() {
-        if (!this.validateClId(this.state.clientID)) {
-            return alert('유효한 클라이언트 ID를 입력해주세요')
+    async submit() {
+        const mutation = gql`
+        mutation AddBot($id: String!, $description: String!, $brief: String!) {
+            addBot(id: $id, description: $description, brief: $brief)
+        }
+        `
+        let result
+
+        try {
+            result = await apolloClient.mutate({
+                mutation,
+                variables: {
+                    id: this.state.clientID,
+                    description: this.state.description,
+                    brief: this.state.brief
+                },
+            })
+        } catch(e) {
+            this.props.enqueueSnackbar(e.message, {
+                variant: 'error'
+            })
+        }
+
+        if (result.data.addBot) {
+            this.props.enqueueSnackbar('봇이 성공적으로 등록되었습니다. 심사 완료 후 리스트에 등록됩니다.', {
+                variant: 'success'
+            })
+            this.props.history.push('/')
         }
     }
 
@@ -31,12 +60,11 @@ class AddBotPage extends Component {
                 <Typography variant="h4" style={{marginBottom: 20}}>봇 추가하기</Typography>
                 <form onSubmit={(e) => {
                     e.preventDefault()
-                    this.validate()
-                    
+                    return this.submit()
                 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={6}>
-                            <TextField onChange={e => {
+                            <TextField disabled={this.state.processing} onChange={e => {
                                 this.setState({clientID: e.target.value})
                                 this.validateClId(e.target.value)
                             }} error={Boolean(this.state.validate__clientID)} variant="standard" label="클라이언트 ID"
@@ -45,14 +73,14 @@ class AddBotPage extends Component {
                             }} value={this.state.clientID}/>
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <TextField variant="standard" label="짧은 설명" required style={{
+                            <TextField disabled={this.state.processing} variant="standard" label="짧은 설명" required style={{
                                 width: '100%'
                             }} helperText={`${this.state.brief.length}/50`} value={this.state.brief} onChange={e => {
                                 this.setState({brief: e.target.value.slice(0, 50)})
                             }}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField variant="standard" label="봇 설명(마크다운 가능)" required style={{
+                            <TextField disabled={this.state.processing} variant="standard" label="봇 설명(마크다운 가능)" required style={{
                                 width: '100%'
                             }} helperText={`${this.state.description.length}/1500`} value={this.state.description}
                                        multiline onChange={e => {
@@ -69,4 +97,4 @@ class AddBotPage extends Component {
     }
 }
 
-export default loginRequired(AddBotPage);
+export default loginRequired(withSnackbar(AddBotPage));
