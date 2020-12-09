@@ -3,10 +3,11 @@ import {gql, useQuery} from "@apollo/client";
 import {withRouter} from "react-router-dom";
 import {CircularProgress, Grid, Typography} from "@material-ui/core";
 import UserBadge from "../../components/UserBadge";
+import {Pagination} from "@material-ui/lab";
 
 function ProfileView({match: {params: {id}}}) {
     const {loading, error, data} = useQuery(gql`
-        query ($id: String!) {
+        query ($id: String!, $botsPage: Int!) {
             user(id: $id) {
                 id
                 tag
@@ -17,11 +18,20 @@ function ProfileView({match: {params: {id}}}) {
                     icon
                     name
                 }
+                bots(page: $botsPage) {
+                    pages
+                    result {
+                        brief
+                        id
+                        tag
+                    }
+                }
             }
         }
     `, {
         variables: {
-            id
+            id,
+            botsPage: 1
         }
     })
 
@@ -44,11 +54,19 @@ function ProfileView({match: {params: {id}}}) {
                                 }
                             </div>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Typography>{user.tag}님이 제작한 봇 목록</Typography>
-                            <Grid>
+                        {user.bots.pages && <Grid item xs={12}>
+                            <Typography variant="h5">{user.tag}님이 제작한 봇 목록</Typography>
+                            <Grid container spacing={2}>
+                                {
+                                    user.bots.result.map((it, key) => (
+                                        <Grid item xs={12} md={6} lg={4} key={key}>
+                                            {JSON.stringify(it)}
+                                        </Grid>
+                                    ))
+                                }
                             </Grid>
-                        </Grid>
+                            <Pagination count={user.bots.pages}/>
+                        </Grid>}
                     </Grid>
                 </>
             })() : '유저를 찾을 수 없습니다'
