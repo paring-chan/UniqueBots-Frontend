@@ -6,6 +6,7 @@ import Oauth2Callback from "./views/Oauth2Callback";
 import NotFound from "./views/NotFound";
 import AdminPage from "./views/Admin";
 import ManageBots from "./views/Admin/Bots";
+import Judges from "./views/Admin/Judges";
 
 const theme = createMuiTheme({
     palette: {
@@ -24,6 +25,7 @@ class App extends React.Component {
                         <Route exact path="/callback/auth" component={Oauth2Callback}/>
                         <Route exact path="/admin" component={AdminPage}/>
                         <Route exact path="/admin/bots" component={ManageBots}/>
+                        <Route exact path="/admin/judges" component={Judges}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </BrowserRouter>

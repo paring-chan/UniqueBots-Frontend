@@ -1,22 +1,13 @@
 import React, {Component} from 'react';
 import AdminLayout from "../../../components/AdminLayout";
-import {Card, CardContent, Grid, Typography} from "@material-ui/core";
+import {CircularProgress, Grid, Typography} from "@material-ui/core";
 import adminOnly from "../../../util/adminOnly";
+import Bot from "./Bot";
+import {gql, graphql} from '@apollo/react-hoc'
 
 class ManageBots extends Component {
     render() {
-        const bots = [
-            {
-                id: '123123123',
-                brief: '테스트입니다',
-                approved: false
-            },
-            {
-                id: '1231231234',
-                brief: '테스트2',
-                approved: true
-            }
-        ]
+        const {data: {loading, error, admin}} = this.props
 
         return (
             <AdminLayout>
@@ -26,22 +17,30 @@ class ManageBots extends Component {
                 <Typography variant="body2">
                     등록된 봇을 조회/관리 할 수 있습니다.
                 </Typography>
-                <Grid container spacing={1} style={{
-                    padding: 10
-                }}>
-                    {bots.map(bot => (
-                        <Grid item xs={12} md={6} lg={4}>
-                            <Card>
-                                <CardContent>
-                                    {JSON.stringify(bot)}
-                                </CardContent>
-                            </Card>
+                {loading && !error ? <CircularProgress/> : !admin || error ? '에러처리': <Grid container spacing={1}>
+                    {admin.bots.result.map((bot, i) => (
+                        <Grid item xs={12} md={6} lg={4} key={i}>
+                            <Bot bot={bot}/>
                         </Grid>
                     ))}
-                </Grid>
+                </Grid>}
             </AdminLayout>
         );
     }
 }
 
-export default adminOnly(ManageBots);
+export default adminOnly(graphql(gql`
+query {
+    admin {
+        bots {
+            pages
+            result {
+                id
+                approved
+                brief
+                tag
+            }
+        }
+    }
+}
+`)(ManageBots));
