@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Drawer, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
-import {Dashboard, Gavel, SettingsApplications} from "@material-ui/icons";
+import {Dashboard, Gavel, List, People, SettingsApplications} from "@material-ui/icons";
 import {Link} from "react-router-dom";
 
 class AdminSidebar extends Component {
@@ -24,6 +24,18 @@ class AdminSidebar extends Component {
                         <Gavel/>
                     </ListItemIcon>
                     <ListItemText primary="심사 관리"/>
+                </ListItem>
+                <ListItem onClick={this.props.close} button component={Link} to="/admin/users">
+                    <ListItemIcon>
+                        <People/>
+                    </ListItemIcon>
+                    <ListItemText primary="유저 관리"/>
+                </ListItem>
+                <ListItem onClick={this.props.close} button component={Link} to="/admin/audits">
+                    <ListItemIcon>
+                        <List/>
+                    </ListItemIcon>
+                    <ListItemText primary="감사 로그"/>
                 </ListItem>
             </Drawer>
         );
