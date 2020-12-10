@@ -9,18 +9,18 @@ import {
     Chip,
     CircularProgress,
     Grid,
-    Typography
+    Typography, withStyles
 } from "@material-ui/core";
 import UserBadge from "../../components/UserBadge";
 import {Pagination} from "@material-ui/lab";
-import classes from './profile.module.scss'
+import styles from './profile.module.scss'
 import {Dns} from "@material-ui/icons";
 import {motion} from "framer-motion";
 
 const AnimatedGrid = motion.custom(Grid)
 const AnimatedTypography = motion.custom(Typography)
 
-function ProfileView({match: {params: {id}}}) {
+function ProfileView({match: {params: {id}}, classes}) {
     const {loading, error, data, refetch} = useQuery(gql`
         query ($id: String!, $botsPage: Int!) {
             user(id: $id) {
@@ -79,7 +79,7 @@ function ProfileView({match: {params: {id}}}) {
                         }}>
                             <img src={user.avatarURL} alt="Profile Image" width={250} height={250}/>
                         </AnimatedGrid>
-                        <AnimatedGrid variants={{
+                        <AnimatedGrid className={classes.profileArea} variants={{
                             hidden: {
                                 x: 40,
                                 opacity: 0
@@ -171,7 +171,7 @@ function ProfileView({match: {params: {id}}}) {
                                 }
                             }} initial="hidden" animate="visible">
                                 <Pagination count={user.bots.pages} classes={{
-                                    ul: classes.ul
+                                    ul: styles.ul
                                 }} style={{
                                     marginTop: 10
                                 }} onChange={(e, v) => {
@@ -186,4 +186,13 @@ function ProfileView({match: {params: {id}}}) {
     </div>
 }
 
-export default withRouter(ProfileView);
+export default withStyles(theme => ({
+    profileArea: {
+        [theme.breakpoints.up('md')]: {
+            textAlign: 'left'
+        },
+        [theme.breakpoints.down('sm')]: {
+            textAlign: 'center'
+        }
+    }
+}))(withRouter(ProfileView));
