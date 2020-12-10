@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import adminOnly from "../../../util/adminOnly";
 import {gql, graphql} from '@apollo/react-hoc'
-import Bot from "./Bot";
+import Bot from "../../../components/Bot";
 
 class ManageBots extends Component {
     render() {

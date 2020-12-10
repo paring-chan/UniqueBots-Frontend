@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {gql, graphql} from "@apollo/react-hoc";
 
 class HomePage extends Component {
     render() {
@@ -10,4 +11,10 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage;
+export default graphql(gql`
+query {
+    bots {
+        pages
+    }
+}
+`)(HomePage)
