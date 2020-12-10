@@ -94,14 +94,14 @@ class AddBotPage extends Component {
                         <Grid item xs={12} md={6}>
                             <TextField disabled={this.state.processing} variant="standard" label="접두사" required style={{
                                 width: '100%'
-                            }} helperText={`${this.state.brief.length}/5`} value={this.state.brief} onChange={e => {
+                            }} helperText={`${this.state.prefix.length}/5`} value={this.state.prefix} onChange={e => {
                                 this.setState({prefix: e.target.value.slice(0, 5)})
                             }}/>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField disabled={this.state.processing} variant="standard" label="초대링크(비어있을 시 자동 생성됩니다)" style={{
                                 width: '100%'
-                            }} value={this.state.brief} onChange={e => {
+                            }} value={this.state.invite} onChange={e => {
                                 this.setState({invite: e.target.value})
                             }}/>
                         </Grid>

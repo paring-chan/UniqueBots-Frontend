@@ -107,7 +107,7 @@ class JudgeComponent extends Component {
         return <>
             <TableRow>
                 <TableCell>
-                    {judge.id}
+                    {judge.id} {judge.bot?.tag ? `(${judge.bot.tag})` : null}
                 </TableCell>
                 <TableCell>
                     {judge.bot?.brief}
