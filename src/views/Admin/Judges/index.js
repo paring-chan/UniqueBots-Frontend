@@ -116,6 +116,9 @@ class JudgeComponent extends Component {
                     {judge.requester}
                 </TableCell>
                 <TableCell>
+                    {judge.bot?.prefix}
+                </TableCell>
+                <TableCell>
                     <Button variant="contained" href={`https://discord.com/api/oauth2/authorize?client_id=${judge.id}&scope=bot&permissions=0&guild_id=${config.guild}`} target="_blank"
                             style={{width: '100%', boxShadow: 'none', backgroundColor: BLUE["500"], color: '#fff'}}>초대</Button>
                 </TableCell>
@@ -193,13 +196,20 @@ class Judges extends Component {
                 {
                     this.props.data.loading ? <CircularProgress/> : (
                         this.props.data.error ? '에러' : this.props.data.admin && this.props.data.admin.judges.length !== 0 ?
-                            <TableContainer component={Paper}>
-                                <Table>
+                            <TableContainer component={Paper} style={{
+                                overflow: 'auto'
+                            }}>
+                                <Table style={{
+                                    display: 'block',
+                                    overflowX: 'auto',
+                                    whiteSpace: 'nowrap',
+                                }}>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>ID</TableCell>
                                             <TableCell>짧은 설명</TableCell>
                                             <TableCell>신청자</TableCell>
+                                            <TableCell>접두사</TableCell>
                                             <TableCell>초대</TableCell>
                                             <TableCell>승인</TableCell>
                                             <TableCell>거부</TableCell>
@@ -230,6 +240,7 @@ export default adminOnly(graphql(gql`
                 bot {
                     tag
                     brief
+                    prefix
                 }
             }
         }
