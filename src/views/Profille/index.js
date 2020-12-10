@@ -18,6 +18,7 @@ import {Dns} from "@material-ui/icons";
 import {motion} from "framer-motion";
 
 const AnimatedGrid = motion.custom(Grid)
+const AnimatedTypography = motion.custom(Typography)
 
 function ProfileView({match: {params: {id}}}) {
     const {loading, error, data, refetch} = useQuery(gql`
@@ -55,27 +56,72 @@ function ProfileView({match: {params: {id}}}) {
             error ? error.toString() : loading ? <CircularProgress/> : data.user ? (() => {
                 const user = data.user
                 return <>
-                    <Grid container>
-                        <Grid item xs={12} md={6} style={{
+                    <AnimatedGrid variants={{
+                        hidden: {},
+                        visible: {
+                            transition: {
+                                delayChildren: 0.3,
+                                staggerChildren: 0.1
+                            }
+                        }
+                    }} initial="hidden" animate="visible" container>
+                        <AnimatedGrid variants={{
+                            hidden: {
+                                y: 40,
+                                opacity: 0
+                            },
+                            visible: {
+                                y: 0,
+                                opacity: 1
+                            }
+                        }} item xs={12} md={6} style={{
                             textAlign: 'center'
                         }}>
                             <img src={user.avatarURL} alt="Profile Image" width={250} height={250}/>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
+                        </AnimatedGrid>
+                        <AnimatedGrid variants={{
+                            hidden: {
+                                x: 40,
+                                opacity: 0
+                            },
+                            visible: {
+                                x: 0,
+                                opacity: 1
+                            }
+                        }} item xs={12} md={6}>
                             <Typography variant="h4">{user.tag}</Typography>
-                            <div>
-                                {
-                                    user.badges.map((badge, key) => <UserBadge key={key} badge={badge}/>)
-                                }
-                            </div>
-                        </Grid>
-                        {user.bots.pages && <Grid item xs={12}>
-                            <Typography variant="h5">{user.tag}님이 제작한 봇 목록</Typography>
-                            <AnimatedGrid variants={{
+                            <motion.div variants={{
                                 hidden: {},
                                 visible: {
                                     transition: {
                                         delayChildren: 0.3,
+                                        staggerChildren: 0.1
+                                    }
+                                }
+                            }
+                            }>
+                                {
+                                    user.badges.map((badge, key) => <UserBadge key={key} badge={badge}/>)
+                                }
+                            </motion.div>
+                        </AnimatedGrid>
+                        {user.bots.pages && <Grid item xs={12}>
+                            <AnimatedTypography variants={{
+                                hidden: {
+                                    opacity: 0
+                                },
+                                visible: {
+                                    opacity: 1,
+                                    transition: {
+                                        delay: 0.5
+                                    }
+                                }
+                            }} variant="h5" initial="hidden" animate="visible">{user.tag}님이 제작한 봇 목록</AnimatedTypography>
+                            <AnimatedGrid variants={{
+                                hidden: {},
+                                visible: {
+                                    transition: {
+                                        delayChildren: 1,
                                         staggerChildren: 0.1
                                     }
                                 }
@@ -84,11 +130,11 @@ function ProfileView({match: {params: {id}}}) {
                                     user.bots.result.map((it, key) => (
                                         <AnimatedGrid variants={{
                                             hidden: {
-                                                x: 40,
+                                                y: 40,
                                                 opacity: 0
                                             },
                                             visible: {
-                                                x: 0,
+                                                y: 0,
                                                 opacity: 1
                                             }
                                         }} item xs={6} md={4} lg={2} key={key}>
@@ -113,14 +159,27 @@ function ProfileView({match: {params: {id}}}) {
                                     ))
                                 }
                             </AnimatedGrid>
-                            <Pagination count={user.bots.pages} classes={{
-                                ul: classes.ul
-                            }} onChange={(e, v) => {
-                                return refetch({id, botsPage: v})
-                            }
-                            }/>
+                            <motion.div variants={{
+                                hidden: {
+                                    opacity: 0
+                                },
+                                visible: {
+                                    opacity: 1,
+                                    transition: {
+                                        delay: 1.25
+                                    }
+                                }
+                            }} initial="hidden" animate="visible">
+                                <Pagination count={user.bots.pages} classes={{
+                                    ul: classes.ul
+                                }} style={{
+                                    marginTop: 10
+                                }} onChange={(e, v) => {
+                                    return refetch({id, botsPage: v})}
+                                }/>
+                            </motion.div>
                         </Grid>}
-                    </Grid>
+                    </AnimatedGrid>
                 </>
             })() : '유저를 찾을 수 없습니다'
         }
