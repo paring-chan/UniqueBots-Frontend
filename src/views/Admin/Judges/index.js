@@ -113,6 +113,9 @@ class JudgeComponent extends Component {
                     {judge.bot?.brief}
                 </TableCell>
                 <TableCell>
+                    {judge.requester}
+                </TableCell>
+                <TableCell>
                     <Button variant="contained" href={`https://discord.com/api/oauth2/authorize?client_id=${judge.id}&scope=bot&permissions=0&guild_id=${config.guild}`} target="_blank"
                             style={{width: '100%', boxShadow: 'none', backgroundColor: BLUE["500"], color: '#fff'}}>초대</Button>
                 </TableCell>
@@ -196,6 +199,7 @@ class Judges extends Component {
                                         <TableRow>
                                             <TableCell>ID</TableCell>
                                             <TableCell>짧은 설명</TableCell>
+                                            <TableCell>신청자</TableCell>
                                             <TableCell>초대</TableCell>
                                             <TableCell>승인</TableCell>
                                             <TableCell>거부</TableCell>
