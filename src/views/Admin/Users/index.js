@@ -3,13 +3,13 @@ import adminOnly from "../../../util/adminOnly";
 import {gql, graphql} from "@apollo/react-hoc";
 import {
     Button,
-    CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+    CircularProgress, Dialog, DialogActions, DialogTitle,
     Paper,
     Table, TableBody,
     TableCell,
     TableContainer,
     TableHead,
-    TableRow, TextField
+    TableRow
 } from "@material-ui/core";
 import GREEN from "@material-ui/core/colors/green";
 import RED from "@material-ui/core/colors/red";

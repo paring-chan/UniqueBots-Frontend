@@ -38,7 +38,7 @@ class ManageBots extends Component {
                             </TableHead>
                             <TableBody>
                                 {
-                                    admin.bots.map((it, key) => <Bot key={key} bot={it}/>)
+                                    admin.bots.map((it, key) => <Bot key={key} bot={it} refetch={this.props.data.refetch}/>)
                                 }
                             </TableBody>
                         </Table>

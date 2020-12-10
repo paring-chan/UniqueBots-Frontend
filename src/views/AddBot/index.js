@@ -4,6 +4,7 @@ import {Button, Grid, TextField, Typography} from "@material-ui/core";
 import {gql} from "@apollo/client";
 import {apolloClient} from "../../apollo";
 import {withSnackbar} from "notistack";
+import {Alert, AlertTitle} from "@material-ui/lab";
 
 class AddBotPage extends Component {
     state = {
@@ -58,6 +59,10 @@ class AddBotPage extends Component {
         return (
             <>
                 <Typography variant="h4" style={{marginBottom: 20}}>봇 추가하기</Typography>
+                <Alert variant="outlined" severity="error">
+                    <AlertTitle>봇을 추가하기 전에 꼭 읽어주세요!</AlertTitle>
+
+                </Alert>
                 <form onSubmit={(e) => {
                     e.preventDefault()
                     return this.submit()

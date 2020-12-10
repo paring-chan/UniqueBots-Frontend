@@ -16,6 +16,7 @@ import RED from "@material-ui/core/colors/red";
 import {apolloClient} from "../../../apollo";
 import {withSnackbar} from "notistack";
 import BLUE from "@material-ui/core/colors/blue";
+import config from "../../../config";
 
 const APPROVE_QUERY = gql`
     query ($id: String!) {
@@ -112,7 +113,7 @@ class JudgeComponent extends Component {
                     {judge.bot?.brief}
                 </TableCell>
                 <TableCell>
-                    <Button variant="contained" href={`https://discord.com/api/oauth2/authorize?client_id=${judge.id}&scope=bot&permissions=0`} target="_blank"
+                    <Button variant="contained" href={`https://discord.com/api/oauth2/authorize?client_id=${judge.id}&scope=bot&permissions=0&guild_id=${config.guild}`} target="_blank"
                             style={{width: '100%', boxShadow: 'none', backgroundColor: BLUE["500"], color: '#fff'}}>초대</Button>
                 </TableCell>
                 <TableCell>
