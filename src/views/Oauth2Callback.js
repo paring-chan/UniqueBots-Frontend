@@ -1,5 +1,5 @@
 import React from 'react';
-import {gql, useMutation, useQuery} from "@apollo/client";
+import {gql, useMutation} from "@apollo/client";
 
 const Oauth2Callback = () => {
     const [isFirst, setIsFirst] =React.useState(true)

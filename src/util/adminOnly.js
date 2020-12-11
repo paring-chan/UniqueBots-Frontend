@@ -10,7 +10,9 @@ export default function (Component) {
             return <CircularProgress/>
         }
         if (error || !data.me || !data.me.admin) {
-            return '관리자만 접근 가능합니다.'
+            return <div>
+                관리자만 접근 가능합니다.
+            </div>
         }
         return <Component {...props} user={data.me}/>
     }

@@ -10,7 +10,7 @@ export default function (Component) {
             return <CircularProgress/>
         }
         if (error || !data.me) {
-            return '로그인 한 사용자만 접근 가능합니다.'
+            return <div>로그인 한 사용자만 접근 가능합니다.</div>
         }
         return <Component {...props} user={data.me}/>
     }
