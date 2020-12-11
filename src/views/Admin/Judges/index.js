@@ -197,6 +197,10 @@ class JudgeComponent extends Component {
 const Judge = withSnackbar(JudgeComponent)
 
 class Judges extends Component {
+    componentDidMount() {
+        this.props.data.refetch()
+    }
+
     render() {
         return (
             <>

@@ -13,6 +13,10 @@ import {
 import moment from 'moment';
 
 class Audits extends React.Component<any, any> {
+    componentDidMount() {
+        this.props.data.refetch()
+    }
+
     render() {
         const {loading, admin} = this.props.data
 

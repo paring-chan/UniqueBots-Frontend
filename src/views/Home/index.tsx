@@ -15,6 +15,9 @@ import {
 import {motion} from "framer-motion";
 import {Link} from "react-router-dom";
 import {Dns} from "@material-ui/icons";
+import styles from './home.module.scss'
+import {Pagination} from "@material-ui/lab";
+import CustomPagination from "../../components/CustomPagination";
 
 const AnimatedGrid = motion.custom(Grid)
 
@@ -30,12 +33,16 @@ const botListAnimation = {
 }
 
 class HomePage extends Component<any, any> {
+    componentDidMount() {
+        this.props.data.refetch()
+    }
+
     render() {
         return (
             <>
                 <Typography variant="h5">봇 랭킹(서버수)</Typography>
                 {
-                    this.props.data.bots ? <AnimatedGrid container variants={{
+                    !this.props.data.loading && this.props.data.bots ? <AnimatedGrid container variants={{
                         hidden: {},
                         visible: {
                             transition: {
@@ -66,7 +73,8 @@ class HomePage extends Component<any, any> {
                                     </CardContent>
                                     <CardActions>
                                         <ButtonGroup style={{width: '100%'}}>
-                                            <Button style={{width: '50%'}} disabled={it.locked} href={it.invite} target="_blank">
+                                            <Button style={{width: '50%'}} disabled={it.locked} href={it.invite}
+                                                    target="_blank">
                                                 초대
                                             </Button>
                                             <Button style={{width: '50%'}} component={Link} to={`/bots/${it.id}`}>
@@ -77,6 +85,13 @@ class HomePage extends Component<any, any> {
                                 </Card>
                             </AnimatedGrid>
                         ))}
+                        <AnimatedGrid xs={12} item>
+                            <CustomPagination count={this.props.data.bots.pages} delay={1} onChange={(e: any,v: number) => {
+                                this.props.data.refetch({
+                                    page: v
+                                })
+                            }}/>
+                        </AnimatedGrid>
                     </AnimatedGrid> : <CircularProgress/>
                 }
             </>

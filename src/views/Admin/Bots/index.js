@@ -14,6 +14,10 @@ import {gql, graphql} from '@apollo/react-hoc'
 import Bot from "./Bot";
 
 class ManageBots extends Component {
+    componentDidMount() {
+        this.props.data.refetch()
+    }
+
     render() {
         const {data: {loading, error, admin}} = this.props
 
