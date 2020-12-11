@@ -26,6 +26,10 @@ const botListAnimation = {
     visible: {
         y: 0,
         opacity: 1
+    },
+    exit: {
+        opacity: 0,
+        x: 20
     }
 }
 

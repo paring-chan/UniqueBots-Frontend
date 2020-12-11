@@ -13,6 +13,8 @@ import BotInfo from "./views/Bot";
 import ProfileView from "./views/Profille";
 import Users from "./views/Admin/Users";
 import Audits from "./views/Admin/Audits";
+import {AnimatePresence} from "framer-motion";
+import AnimateView from "./util/animateView";
 
 const theme = createMuiTheme({
     palette: {
@@ -27,20 +29,24 @@ class App extends React.Component {
                 <CssBaseline/>
                 <BrowserRouter>
                     <LayoutProvider>
-                        <Switch>
-                            <Route exact path="/" component={HomePage}/>
-                            {/*@ts-ignore*/}
-                            <Route exact path="/callback/auth" component={Oauth2Callback}/>
-                            <Route exact path="/admin" component={AdminPage}/>
-                            <Route exact path="/admin/bots" component={ManageBots}/>
-                            <Route exact path="/admin/judges" component={Judges}/>
-                            <Route exact path="/admin/users" component={Users}/>
-                            <Route exact path="/admin/audits" component={Audits}/>
-                            <Route exact path="/addbot" component={AddBotPage}/>
-                            <Route exact path="/bots/:id" component={BotInfo}/>
-                            <Route exact path="/user/:id" component={ProfileView}/>
-                            <Route component={NotFound}/>
-                        </Switch>
+                        <Route render={({location}) => (
+                            <AnimatePresence exitBeforeEnter initial={true}>
+                                <Switch location={location} key={location.pathname}>
+                                    <Route exact path="/" component={AnimateView(HomePage)}/>
+                                    {/*@ts-ignore*/}
+                                    <Route exact path="/callback/auth" component={AnimateView(Oauth2Callback)}/>
+                                    <Route exact path="/admin" component={AnimateView(AdminPage)}/>
+                                    <Route exact path="/admin/bots" component={AnimateView(ManageBots)}/>
+                                    <Route exact path="/admin/judges" component={AnimateView(Judges)}/>
+                                    <Route exact path="/admin/users" component={AnimateView(Users)}/>
+                                    <Route exact path="/admin/audits" component={AnimateView(Audits)}/>
+                                    <Route exact path="/addbot" component={AnimateView(AddBotPage)}/>
+                                    <Route exact path="/bots/:id" component={AnimateView(BotInfo)}/>
+                                    <Route exact path="/user/:id" component={AnimateView(ProfileView)}/>
+                                    <Route component={AnimateView(NotFound)}/>
+                                </Switch>
+                            </AnimatePresence>
+                        )}/>
                     </LayoutProvider>
                 </BrowserRouter>
             </MuiThemeProvider>
