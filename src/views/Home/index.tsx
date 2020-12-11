@@ -4,9 +4,8 @@ import {Component} from "react";
 import {
     Avatar, Button, ButtonGroup,
     Card,
-    CardActionArea, CardActions,
+    CardActions,
     CardContent,
-    CardMedia,
     Chip,
     CircularProgress,
     Grid,
@@ -15,8 +14,6 @@ import {
 import {motion} from "framer-motion";
 import {Link} from "react-router-dom";
 import {Dns} from "@material-ui/icons";
-import styles from './home.module.scss'
-import {Pagination} from "@material-ui/lab";
 import CustomPagination from "../../components/CustomPagination";
 
 const AnimatedGrid = motion.custom(Grid)
@@ -86,11 +83,12 @@ class HomePage extends Component<any, any> {
                             </AnimatedGrid>
                         ))}
                         <AnimatedGrid xs={12} item>
-                            <CustomPagination count={this.props.data.bots.pages} delay={1} onChange={(e: any,v: number) => {
-                                this.props.data.refetch({
-                                    page: v
-                                })
-                            }}/>
+                            <CustomPagination count={this.props.data.bots.pages} delay={1}
+                                              onChange={(e: any, v: number) => {
+                                                  this.props.data.refetch({
+                                                      page: v
+                                                  })
+                                              }}/>
                         </AnimatedGrid>
                     </AnimatedGrid> : <CircularProgress/>
                 }
