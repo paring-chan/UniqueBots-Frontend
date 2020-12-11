@@ -13,7 +13,7 @@ import BLUE from '@material-ui/core/colors/blue'
 import RED from '@material-ui/core/colors/red'
 import {Link} from "react-router-dom";
 import GREEN from "@material-ui/core/colors/green";
-import {apolloClient} from "../apollo";
+import {apolloClient} from "../../../apollo";
 import {gql} from "@apollo/client";
 import {useSnackbar} from "notistack";
 

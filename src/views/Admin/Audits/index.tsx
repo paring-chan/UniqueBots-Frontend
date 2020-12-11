@@ -10,7 +10,7 @@ import {
     TableHead,
     TableRow
 } from "@material-ui/core";
-import moment from 'moment'
+import moment from 'moment';
 
 class Audits extends React.Component<any, any> {
     render() {
@@ -22,7 +22,6 @@ class Audits extends React.Component<any, any> {
             for (const audit of admin.audits) {
                 arr.push(audit)
             }
-            /*console.log()*/
         }
 
         return (

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import HomePage from "./views/Home";
 import {createMuiTheme, CssBaseline, MuiThemeProvider} from "@material-ui/core";

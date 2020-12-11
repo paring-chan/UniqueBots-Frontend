@@ -39,6 +39,7 @@ function ProfileView({match: {params: {id}}, classes}) {
                         brief
                         id
                         tag
+                        guilds
                         avatar
                     }
                 }
@@ -147,7 +148,7 @@ function ProfileView({match: {params: {id}}, classes}) {
                                                         <Typography gutterBottom variant="h5" component="h2">
                                                             {it.tag}
                                                         </Typography>
-                                                        <Chip label={`서버 0개`} style={{pointerEvents: 'none'}}
+                                                        <Chip label={`서버 ${it.guilds}개`} style={{pointerEvents: 'none'}}
                                                               icon={<Dns/>}/>
                                                         <Typography variant="body2" color="textSecondary" component="p">
                                                             {it.brief}
