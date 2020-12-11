@@ -7,6 +7,20 @@ import {withSnackbar} from "notistack";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {Link as RouterLink} from 'react-router-dom'
 import {Link} from '@material-ui/core'
+import {motion} from 'framer-motion'
+
+const AnimatedGrid = motion.custom(Grid)
+
+const itemVariants = {
+    hidden: {
+        opacity: 0,
+        y: 20
+    },
+    visible: {
+        opacity: 1,
+        y: 0
+    }
+}
 
 class AddBotPage extends Component {
     state = {
@@ -65,17 +79,36 @@ class AddBotPage extends Component {
         return (
             <>
                 <Typography variant="h4" style={{marginBottom: 20}}>봇 추가하기</Typography>
-                <Alert variant="outlined" severity="error">
-                    <AlertTitle>봇을 추가하기 전에 꼭 읽어주세요!</AlertTitle>
-                    <p><Link to="/discord" component={RouterLink}>디스코드 서버</Link> 에 참가해주세요</p>
-                    <p>당신이 개발자임을 확인하기 위해서 개발자 확인 명령어가 필요합니다. {'{접두사}개발자 명령어 또는 도움말에 자신의 태그를 넣어주세요'}</p>
-                </Alert>
+                <motion.div variants={{
+                    hidden: {
+                        opacity: 0,
+                        y: 20
+                    },
+                    visible: {
+                        opacity: 1,
+                        y: 0
+                    }
+                }} initial="hidden" animate="visible">
+                    <Alert variant="outlined" severity="error">
+                        <AlertTitle>봇을 추가하기 전에 꼭 읽어주세요!</AlertTitle>
+                        <p><Link to="/discord" component={RouterLink}>디스코드 서버</Link> 에 참가해주세요</p>
+                        <p>당신이 개발자임을 확인하기 위해서 개발자 확인 명령어가 필요합니다. {'{접두사}개발자 명령어 또는 도움말에 자신의 태그를 넣어주세요'}</p>
+                    </Alert>
+                </motion.div>
                 <form onSubmit={(e) => {
                     e.preventDefault()
                     return this.submit()
                 }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
+                    <AnimatedGrid variants={{
+                        hidden: {},
+                        visible: {
+                            transition: {
+                                staggerChildren: 0.1,
+                                delayChildren: 0.4
+                            }
+                        }
+                    }} initial="hidden" animate="visible" container spacing={2}>
+                        <AnimatedGrid variants={itemVariants} item xs={12} md={6}>
                             <TextField disabled={this.state.processing} onChange={e => {
                                 this.setState({clientID: e.target.value})
                                 this.validateClId(e.target.value)
@@ -83,40 +116,40 @@ class AddBotPage extends Component {
                                        required style={{
                                 width: '100%'
                             }} value={this.state.clientID}/>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
+                        </AnimatedGrid>
+                        <AnimatedGrid variants={itemVariants} item xs={12} md={6}>
                             <TextField disabled={this.state.processing} variant="standard" label="짧은 설명" required style={{
                                 width: '100%'
                             }} helperText={`${this.state.brief.length}/50`} value={this.state.brief} onChange={e => {
                                 this.setState({brief: e.target.value.slice(0, 50)})
                             }}/>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
+                        </AnimatedGrid>
+                        <AnimatedGrid item xs={12} md={6} variants={itemVariants}>
                             <TextField disabled={this.state.processing} variant="standard" label="접두사" required style={{
                                 width: '100%'
                             }} helperText={`${this.state.prefix.length}/5`} value={this.state.prefix} onChange={e => {
                                 this.setState({prefix: e.target.value.slice(0, 5)})
                             }}/>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
+                        </AnimatedGrid>
+                        <AnimatedGrid item xs={12} md={6} variants={itemVariants}>
                             <TextField disabled={this.state.processing} variant="standard" label="초대링크(비어있을 시 자동 생성됩니다)" style={{
                                 width: '100%'
                             }} value={this.state.invite} onChange={e => {
                                 this.setState({invite: e.target.value})
                             }}/>
-                        </Grid>
-                        <Grid item xs={12}>
+                        </AnimatedGrid>
+                        <AnimatedGrid item xs={12} variants={itemVariants}>
                             <TextField disabled={this.state.processing} variant="standard" label="봇 설명(마크다운 가능)" required style={{
                                 width: '100%'
                             }} helperText={`${this.state.description.length}/1500`} value={this.state.description}
                                        multiline onChange={e => {
                                 this.setState({description: e.target.value.slice(0, 1500)})
                             }}/>
-                        </Grid>
-                        <Grid item>
+                        </AnimatedGrid>
+                        <AnimatedGrid item variants={itemVariants}>
                             <Button type="submit">등록하기</Button>
-                        </Grid>
-                    </Grid>
+                        </AnimatedGrid>
+                    </AnimatedGrid>
                 </form>
             </>
         );
