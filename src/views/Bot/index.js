@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {gql, graphql} from "@apollo/react-hoc";
-import {Button, Chip, CircularProgress, Grid, Paper, Typography, withStyles} from "@material-ui/core";
+import {Button, Chip, CircularProgress, Grid, Paper, TextField, Typography, withStyles} from "@material-ui/core";
 import markdownIt from 'markdown-it'
 import {Check} from "@material-ui/icons";
 import GREEN from '@material-ui/core/colors/green'
 import BLUE from '@material-ui/core/colors/blue'
 import {motion} from "framer-motion";
 import {Link} from "react-router-dom";
+import {CopyToClipboard} from 'react-copy-to-clipboard'
+import {apolloClient} from "../../apollo";
 
 const md = markdownIt({
     html: false
@@ -29,7 +31,8 @@ const chipVariants = {
 
 class BotInfo extends Component {
     state = {
-        description: null
+        description: null,
+        showToken: false
     }
 
     componentDidMount() {
@@ -58,28 +61,56 @@ class BotInfo extends Component {
                 {
                     !this.props.data.loading && bot ? (
                         <Grid container spacing={2} justify="center">
-                            <AnimatedGrid variants={{initial: {opacity: 0}, visible: {opacity: 1, transition: {delay: 0.25}}}} initial="initial" animate="visible" className={classes.avatar} item xs={12} md={6}>
+                            <AnimatedGrid
+                                variants={{initial: {opacity: 0}, visible: {opacity: 1, transition: {delay: 0.25}}}}
+                                initial="initial" animate="visible" className={classes.avatar} item xs={12} md={6}>
                                 <img src={bot.avatar} alt="avatar" width={250} height={250}/>
                             </AnimatedGrid>
                             <Grid item xs={12} md={6} style={{
                                 display: 'flex',
                                 flexDirection: 'column'
                             }}>
-                                <Typography className={classes.textMdCenter} initial="hidden" animate="visible" variants={{visible: {transition: {staggerChildren: 0.02, delayChildren: 0.3}}}} component={motion.h4} variant="h4">
+                                <Typography className={classes.textMdCenter} initial="hidden" animate="visible"
+                                            variants={{
+                                                visible: {
+                                                    transition: {
+                                                        staggerChildren: 0.02,
+                                                        delayChildren: 0.3
+                                                    }
+                                                }
+                                            }} component={motion.h4} variant="h4">
                                     {bot.tag.split('').map((it, key) => (
-                                        <motion.span variants={{hidden: {opacity: 0}, visible: {opacity: 1}}} key={key}>{it}</motion.span>
+                                        <motion.span variants={{hidden: {opacity: 0}, visible: {opacity: 1}}}
+                                                     key={key}>{it}</motion.span>
                                     ))}
                                 </Typography>
-                                <Typography className={classes.textMdCenter} variant="h6" initial="hidden" animate="visible" variants={{visible: {transition: {staggerChildren: 0.02, delayChildren: 0.3}}}} component={motion.h6}>
+                                <Typography className={classes.textMdCenter} variant="h6" initial="hidden"
+                                            animate="visible" variants={{
+                                    visible: {
+                                        transition: {
+                                            staggerChildren: 0.02,
+                                            delayChildren: 0.3
+                                        }
+                                    }
+                                }} component={motion.h6}>
                                     {bot.brief.split('').map((it, key) => (
-                                        <motion.span variants={{hidden: {opacity: 0}, visible: {opacity: 1}}} key={key}>{it}</motion.span>
+                                        <motion.span variants={{hidden: {opacity: 0}, visible: {opacity: 1}}}
+                                                     key={key}>{it}</motion.span>
                                     ))}
                                 </Typography>
-                                <motion.div variants={{visible: {transition: {staggerChildren: 0.1, delayChildren: 0.4}}}} initial="hidden" animate="visible" style={{flexGrow: 1}} className={classes.textMdCenter}>
-                                    <AnimatedChip variants={chipVariants} className={classes.chip} label={`서버 ${bot.guilds}개`} color="primary"/>
-                                    {bot.discordVerified && <AnimatedChip variants={chipVariants} className={classes.chip} icon={<Check/>} label="디스코드에서 인증됨" style={{backgroundColor: GREEN.A400}}/>}
+                                <motion.div
+                                    variants={{visible: {transition: {staggerChildren: 0.1, delayChildren: 0.4}}}}
+                                    initial="hidden" animate="visible" style={{flexGrow: 1}}
+                                    className={classes.textMdCenter}>
+                                    <AnimatedChip variants={chipVariants} className={classes.chip}
+                                                  label={`서버 ${bot.guilds}개`} color="primary"/>
+                                    {bot.discordVerified &&
+                                    <AnimatedChip variants={chipVariants} className={classes.chip} icon={<Check/>}
+                                                  label="디스코드에서 인증됨" style={{backgroundColor: GREEN.A400}}/>}
                                 </motion.div>
-                                <motion.div variants={{visible: {transition: {staggerChildren: 0.1, delayChildren: 0.6}}}} initial="hidden" animate="visible">
+                                <motion.div
+                                    variants={{visible: {transition: {staggerChildren: 0.1, delayChildren: 0.6}}}}
+                                    initial="hidden" animate="visible">
                                     <AnimatedButton variants={chipVariants} variant="outlined" style={{
                                         borderColor: BLUE.A400,
                                         color: BLUE.A400,
@@ -88,19 +119,60 @@ class BotInfo extends Component {
                                         초대하기
                                     </AnimatedButton>
                                     {
-                                        bot.owner.id === this.props.data.me?.id && <AnimatedButton variants={chipVariants} variant="outlined" style={{
-                                            borderColor: GREEN.A400,
-                                            color: GREEN.A400,
-                                            marginRight: 10
-                                        }} component={Link} to={`/manage/bot/${bot.id}`}>
-                                            관리
-                                        </AnimatedButton>
+                                        bot.owner.id === this.props.data.me?.id && <>
+                                            <AnimatedButton variants={chipVariants} variant="outlined" style={{
+                                                borderColor: GREEN.A400,
+                                                color: GREEN.A400,
+                                                marginRight: 10
+                                            }} component={Link} to={`/manage/bot/${bot.id}`}>
+                                                관리
+                                            </AnimatedButton>
+                                            <CopyToClipboard text={bot.token}>
+                                                <AnimatedButton variants={chipVariants} variant="outlined" style={{
+                                                    borderColor: GREEN.A400,
+                                                    color: GREEN.A400,
+                                                    marginRight: 10
+                                                }}>
+                                                    토큰 복사
+                                                </AnimatedButton>
+                                            </CopyToClipboard>
+                                            <AnimatedButton onClick={async () => {
+                                                const query = gql`
+                                                    query ($id: String!) {
+                                                        bot(id: $id) {
+                                                            regenerateToken
+                                                        }
+                                                    }
+                                                `
+                                                const data = await apolloClient.query({
+                                                    query,
+                                                    variables: {
+                                                        id: bot.id
+                                                    }
+                                                })
+                                                if (data.data.bot?.regenerateToken) {
+                                                    alert('토큰이 재발급 되었습니다.')
+                                                    await this.props.data.refetch()
+                                                }
+                                            }
+                                            } variants={chipVariants} variant="outlined" style={{
+                                                borderColor: GREEN.A400,
+                                                color: GREEN.A400,
+                                                marginRight: 10
+                                            }}>
+                                                토큰 재발급
+                                            </AnimatedButton>
+                                        </>
                                     }
                                 </motion.div>
                             </Grid>
-                            <AnimatedGrid variants={{hidden: {y: 50, opacity: 0}, visible: {y: 0, opacity: 1, transition: {delay: 0.8}}}} initial="hidden" aniamte="visible" item xs={12} md={8}>
+                            <AnimatedGrid variants={{
+                                hidden: {y: 50, opacity: 0},
+                                visible: {y: 0, opacity: 1, transition: {delay: 0.8}}
+                            }} initial="hidden" aniamte="visible" item xs={12} md={8}>
                                 <Paper style={{padding: 10}}>
-                                    <div className="markdown-body" dangerouslySetInnerHTML={{__html: this.state.description || 'Compiling..'}}/>
+                                    <div className="markdown-body"
+                                         dangerouslySetInnerHTML={{__html: this.state.description || 'Compiling..'}}/>
                                 </Paper>
                             </AnimatedGrid>
                         </Grid>
@@ -112,30 +184,31 @@ class BotInfo extends Component {
 }
 
 export default graphql(gql`
-query ($id: String!) {
-    bot(id: $id) {
-        avatar
-        brief
-        description
-        guilds
-        id
-        id
-        locked
-        invite
-        discordVerified
-        prefix
-        status
-        tag
-        owner {
+    query ($id: String!) {
+        bot(id: $id) {
+            avatar
+            brief
+            description
+            guilds
             id
+            id
+            locked
+            invite
+            token
+            discordVerified
+            prefix
+            status
             tag
-            avatarURL
+            owner {
+                id
+                tag
+                avatarURL
+            }
+        }
+        me {
+            id
         }
     }
-    me {
-        id
-    }
-}
 `, {
     options: {
         variables: {
