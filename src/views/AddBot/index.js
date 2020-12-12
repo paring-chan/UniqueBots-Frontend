@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import loginRequired from "../../util/loginRequired";
-import {Button, Grid, TextField, Typography} from "@material-ui/core";
+import {Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from "@material-ui/core";
 import {gql} from "@apollo/client";
 import {apolloClient} from "../../apollo";
 import {withSnackbar} from "notistack";
@@ -30,13 +30,14 @@ class AddBotPage extends Component {
         description: '',
         prefix: '',
         invite: '',
-        processing: false
+        processing: false,
+        library: ''
     }
 
     async submit() {
         const mutation = gql`
-        mutation AddBot($id: String!, $description: String!, $brief: String!, $prefix: String!, $invite: String) {
-            addBot(id: $id, description: $description, brief: $brief, prefix: $prefix, invite: $invite)
+        mutation AddBot($id: String!, $description: String!, $brief: String!, $prefix: String!, $invite: String, $library: String!) {
+            addBot(id: $id, description: $description, brief: $brief, prefix: $prefix, invite: $invite, library: $library)
         }
         `
         let result
@@ -49,7 +50,8 @@ class AddBotPage extends Component {
                     description: this.state.description,
                     brief: this.state.brief,
                     prefix: this.state.prefix,
-                    invite: this.state.invite || null
+                    invite: this.state.invite || null,
+                    library: this.state.library
                 },
             })
         } catch(e) {
@@ -137,6 +139,43 @@ class AddBotPage extends Component {
                             }} value={this.state.invite} onChange={e => {
                                 this.setState({invite: e.target.value})
                             }}/>
+                        </AnimatedGrid>
+                        <AnimatedGrid item xs={12} md={6} variants={itemVariants}>
+                            <FormControl fullWidth>
+                                <InputLabel shrink>
+                                    라이브러리
+                                </InputLabel>
+                                <Select fullWidth value={this.state.library}
+                                        onChange={e => this.setState({library: e.target.value})}
+                                        disabled={this.state.processing} variant="standard"
+                                        required style={{
+                                    width: '100%'
+                                }}>
+                                    {['discord.js',
+                                        'eris',
+                                        'discord.py',
+                                        'discordcr',
+                                        'nyxx',
+                                        'discord.net',
+                                        'DSharpPlus',
+                                        'Nostrum',
+                                        'coxir',
+                                        'discordgo',
+                                        'discord4j',
+                                        'javacord',
+                                        'jda',
+                                        'discordia', 'restcord',
+                                        'yasmin',
+                                        'disco',
+                                        'disocrdrb',
+                                        'serenity',
+                                        'swiftdiscord',
+                                        'sword', '기타'].map((it, key) =>
+                                        <MenuItem key={key}
+                                                  value={it}>{it}</MenuItem>)
+                                    }
+                                </Select>
+                            </FormControl>
                         </AnimatedGrid>
                         <AnimatedGrid item xs={12} variants={itemVariants}>
                             <TextField disabled={this.state.processing} variant="standard" label="봇 설명(마크다운 가능)" required style={{

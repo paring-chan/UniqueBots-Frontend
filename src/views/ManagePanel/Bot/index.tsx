@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
 import loginRequired from "../../../util/loginRequired";
-import {Button, CircularProgress, Grid, Switch, TextField, Typography} from "@material-ui/core";
+import {
+    Button,
+    CircularProgress,
+    FormControl,
+    Grid, InputLabel,
+    MenuItem,
+    Select,
+    Switch,
+    TextField,
+    Typography
+} from "@material-ui/core";
 import {gql} from "@apollo/client";
 import {apolloClient} from "../../../apollo";
 import {withSnackbar} from "notistack";
@@ -33,15 +43,16 @@ class ManageBot extends Component<any, any> {
         invite: '',
         processing: false,
         fetched: false,
-        lock: false
+        lock: false,
+        library: ''
     }
 
     async submit() {
         const query = gql`
-            query ($id: String!, $description: String!, $brief: String!, $prefix: String!, $invite: String!, $lock: Boolean!) {
+            query ($id: String!, $description: String!, $brief: String!, $prefix: String!, $invite: String!, $lock: Boolean!, $library: String!) {
                 me {
                     bot(id: $id) {
-                        patch(description: $description, brief: $brief, prefix: $prefix, invite: $invite, lock: $lock)
+                        patch(description: $description, brief: $brief, prefix: $prefix, invite: $invite, lock: $lock, library: $library)
                     }
                 }
             }
@@ -57,7 +68,8 @@ class ManageBot extends Component<any, any> {
                     brief: this.state.brief,
                     prefix: this.state.prefix,
                     invite: this.state.invite || null,
-                    lock: this.state.lock
+                    lock: this.state.lock,
+                    library: this.state.library
                 },
             })
         } catch (e) {
@@ -158,6 +170,43 @@ class ManageBot extends Component<any, any> {
                                                 this.setState({invite: e.target.value})
                                             }}/>
                                         </AnimatedGrid>
+                                        <AnimatedGrid item xs={12} md={6} variants={itemVariants}>
+                                            <FormControl fullWidth>
+                                                <InputLabel shrink>
+                                                    라이브러리
+                                                </InputLabel>
+                                                <Select fullWidth value={this.state.library}
+                                                        onChange={e => this.setState({library: e.target.value})}
+                                                        disabled={this.state.processing} variant="standard"
+                                                        required style={{
+                                                    width: '100%'
+                                                }}>
+                                                    {['discord.js',
+                                                        'eris',
+                                                        'discord.py',
+                                                        'discordcr',
+                                                        'nyxx',
+                                                        'discord.net',
+                                                        'DSharpPlus',
+                                                        'Nostrum',
+                                                        'coxir',
+                                                        'discordgo',
+                                                        'discord4j',
+                                                        'javacord',
+                                                        'jda',
+                                                        'discordia', 'restcord',
+                                                        'yasmin',
+                                                        'disco',
+                                                        'disocrdrb',
+                                                        'serenity',
+                                                        'swiftdiscord',
+                                                        'sword', '기타'].map((it, key) =>
+                                                        <MenuItem key={key}
+                                                                  value={it}>{it}</MenuItem>)
+                                                    }
+                                                </Select>
+                                            </FormControl>
+                                        </AnimatedGrid>
                                         <AnimatedGrid item xs={12} variants={itemVariants}>
                                             <TextField disabled={this.state.processing} variant="standard"
                                                        label="봇 설명(마크다운 가능)" required style={{
@@ -168,7 +217,8 @@ class ManageBot extends Component<any, any> {
                                                 this.setState({description: e.target.value.slice(0, 1500)})
                                             }}/>
                                         </AnimatedGrid>
-                                        <AnimatedGrid item variants={itemVariants} xs={12} onChange={e => this.setState({lock: (e.target as any).checked})}>
+                                        <AnimatedGrid item variants={itemVariants} xs={12}
+                                                      onChange={e => this.setState({lock: (e.target as any).checked})}>
                                             <Switch checked={this.state.lock}/> 봇 잠금처리(잠금처리 하면 봇 초대가 비활성화 됩니다)
                                         </AnimatedGrid>
                                         <AnimatedGrid item variants={itemVariants}>
@@ -195,6 +245,7 @@ export default loginRequired(withSnackbar(graphql(gql`
                 invite
                 prefix
                 locked
+                library
             }
         }
     }
