@@ -13,10 +13,10 @@ const NotFound = () => {
             height: '100vh',
             overflow: 'hidden',
             flexDirection: 'column',
-            position: 'fixed',
+            position: 'absolute',
             left: 0,
             top: 0,
-            zIndex: 99999,
+            zIndex: 999,
             background: GREY["900"]
         }}>
             <Typography variant="h4">404 Not Found</Typography>

@@ -26,6 +26,9 @@ export const apolloClient = new ApolloClient({
                 fields: {
                     admin: {
                         merge: true
+                    },
+                    me: {
+                        merge: true
                     }
                 }
             }

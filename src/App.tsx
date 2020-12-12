@@ -15,6 +15,8 @@ import Users from "./views/Admin/Users";
 import Audits from "./views/Admin/Audits";
 import {AnimatePresence} from "framer-motion";
 import AnimateView from "./util/animateView";
+import ManagePanel from "./views/ManagePanel";
+import ManageBot from "./views/ManagePanel/Bot";
 
 const theme = createMuiTheme({
     palette: {
@@ -43,6 +45,8 @@ class App extends React.Component {
                                     <Route exact path="/addbot" component={AnimateView(AddBotPage)}/>
                                     <Route exact path="/bots/:id" component={AnimateView(BotInfo)}/>
                                     <Route exact path="/user/:id" component={AnimateView(ProfileView)}/>
+                                    <Route exact path="/manage" component={AnimateView(ManagePanel)}/>
+                                    <Route exact path="/manage/bot/:id" component={AnimateView(ManageBot)}/>
                                     <Route component={AnimateView(NotFound)}/>
                                 </Switch>
                             </AnimatePresence>
