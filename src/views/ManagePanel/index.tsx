@@ -11,7 +11,7 @@ import {
     CircularProgress, Grid,
     Typography
 } from "@material-ui/core";
-import {Dns} from "@material-ui/icons";
+import {Check, Close, Dns} from "@material-ui/icons";
 import {Link} from "react-router-dom";
 import CustomPagination from "../../components/CustomPagination";
 import {motion} from "framer-motion";
@@ -88,7 +88,62 @@ class ManagePanel extends React.Component<any, any> {
                                     <CustomPagination count={this.props.data.me.bots.pages} delay={1}
                                                       onChange={(e: any, v: number) => {
                                                           this.props.data.refetch({
-                                                              page: v
+                                                              bot_page: v
+                                                          })
+                                                      }}/>
+                                </AnimatedGrid>
+                            </AnimatedGrid>
+                            <Typography variant="h4">심사 목록</Typography>
+                            <AnimatedGrid container variants={{
+                                hidden: {},
+                                visible: {
+                                    transition: {
+                                        delayChildren: 0.3,
+                                        staggerChildren: 0.05
+                                    }
+                                }
+                            }} spacing={2} initial="hidden" animate="visible">
+                                {this.props.data.me.judges.items.map((it: any, key: number) => (
+                                    <AnimatedGrid item xs={12} md={4} lg={3} key={key} variants={botListAnimation}>
+                                        <Card style={{
+                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'column'
+                                        }}>
+                                            <CardContent style={{
+                                                flexGrow: 1
+                                            }}>
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                    {it.id}
+                                                </Typography>
+                                                {
+                                                    it.approved ? <Chip label="승인됨" style={{pointerEvents: 'none'}}
+                                                                        icon={<Check/>}/> : <Chip label="거부됨" style={{pointerEvents: 'none'}}
+                                                                                                  icon={<Close/>}/>
+                                                }
+                                                <Typography variant="body2" color="textSecondary" component="p">
+                                                    {it.reason}
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions>
+                                                <ButtonGroup style={{width: '100%'}}>
+                                                    {it.approved && <Button style={{width: '50%'}} component={Link} to={`/bots/${it.id}`}>
+                                                        봇 정보 보기
+                                                    </Button>}
+                                                    <Button style={{width: it.approved ? '50%' : '100%'}} component={Link}
+                                                            to={`/bots/${it.id}`}>
+                                                        더보기
+                                                    </Button>
+                                                </ButtonGroup>
+                                            </CardActions>
+                                        </Card>
+                                    </AnimatedGrid>
+                                ))}
+                                <AnimatedGrid xs={12} item>
+                                    <CustomPagination count={this.props.data.me.judges.pages} delay={1}
+                                                      onChange={(e: any, v: number) => {
+                                                          this.props.data.refetch({
+                                                              judge_page: v
                                                           })
                                                       }}/>
                                 </AnimatedGrid>
@@ -102,7 +157,7 @@ class ManagePanel extends React.Component<any, any> {
 }
 
 export default graphql(gql`
-    query ($bot_page: Int!) {
+    query ($bot_page: Int!, $judge_page: Int) {
         me {
             id
             bots(page: $bot_page) {
@@ -113,6 +168,15 @@ export default graphql(gql`
                     brief
                     guilds
                 }
+            }
+            judges(page: $judge_page) {
+                items {
+                    id
+                    approved
+                    pending
+                    reason
+                }
+                pages
             }
         }
     }
