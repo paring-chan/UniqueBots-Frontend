@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import loginRequired from "../../../util/loginRequired";
-import {Button, CircularProgress, Grid, TextField, Typography} from "@material-ui/core";
+import {Button, CircularProgress, Grid, Switch, TextField, Typography} from "@material-ui/core";
 import {gql} from "@apollo/client";
 import {apolloClient} from "../../../apollo";
 import {withSnackbar} from "notistack";
@@ -32,15 +32,16 @@ class ManageBot extends Component<any, any> {
         prefix: '',
         invite: '',
         processing: false,
-        fetched: false
+        fetched: false,
+        lock: false
     }
 
     async submit() {
         const query = gql`
-            query ($id: String!, $description: String!, $brief: String!, $prefix: String!, $invite: String) {
+            query ($id: String!, $description: String!, $brief: String!, $prefix: String!, $invite: String!, $lock: Boolean!) {
                 me {
                     bot(id: $id) {
-                        patch(description: $description, brief: $brief, prefix: $prefix, invite: $invite)
+                        patch(description: $description, brief: $brief, prefix: $prefix, invite: $invite, lock: $lock)
                     }
                 }
             }
@@ -55,7 +56,8 @@ class ManageBot extends Component<any, any> {
                     description: this.state.description,
                     brief: this.state.brief,
                     prefix: this.state.prefix,
-                    invite: this.state.invite || null
+                    invite: this.state.invite || null,
+                    lock: this.state.lock
                 },
             })
         } catch (e) {
@@ -84,7 +86,8 @@ class ManageBot extends Component<any, any> {
                 brief: b.brief,
                 description: b.description,
                 invite: b.invite,
-                prefix: b.prefix
+                prefix: b.prefix,
+                lock: b.locked
             })
         }
     }
@@ -149,7 +152,7 @@ class ManageBot extends Component<any, any> {
                                         </AnimatedGrid>
                                         <AnimatedGrid item xs={12} md={6} variants={itemVariants}>
                                             <TextField disabled={this.state.processing} variant="standard"
-                                                       label="초대링크(비어있을 시 자동 생성됩니다)" style={{
+                                                       label="초대링크" required style={{
                                                 width: '100%'
                                             }} value={this.state.invite} onChange={e => {
                                                 this.setState({invite: e.target.value})
@@ -164,6 +167,9 @@ class ManageBot extends Component<any, any> {
                                                        multiline onChange={e => {
                                                 this.setState({description: e.target.value.slice(0, 1500)})
                                             }}/>
+                                        </AnimatedGrid>
+                                        <AnimatedGrid item variants={itemVariants} xs={12} onChange={e => this.setState({lock: (e.target as any).checked})}>
+                                            <Switch checked={this.state.lock}/> 봇 잠금처리(잠금처리 하면 봇 초대가 비활성화 됩니다)
                                         </AnimatedGrid>
                                         <AnimatedGrid item variants={itemVariants}>
                                             <Button type="submit">수정하기</Button>

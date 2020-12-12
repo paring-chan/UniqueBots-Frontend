@@ -6,6 +6,7 @@ import {Check} from "@material-ui/icons";
 import GREEN from '@material-ui/core/colors/green'
 import BLUE from '@material-ui/core/colors/blue'
 import {motion} from "framer-motion";
+import {Link} from "react-router-dom";
 
 const md = markdownIt({
     html: false
@@ -81,10 +82,20 @@ class BotInfo extends Component {
                                 <motion.div variants={{visible: {transition: {staggerChildren: 0.1, delayChildren: 0.6}}}} initial="hidden" animate="visible">
                                     <AnimatedButton variants={chipVariants} variant="outlined" style={{
                                         borderColor: BLUE.A400,
-                                        color: BLUE.A400
+                                        color: BLUE.A400,
+                                        marginRight: 10
                                     }} href={bot.invite} target="_blank">
                                         초대하기
                                     </AnimatedButton>
+                                    {
+                                        bot.owner.id === this.props.data.me?.id && <AnimatedButton variants={chipVariants} variant="outlined" style={{
+                                            borderColor: GREEN.A400,
+                                            color: GREEN.A400,
+                                            marginRight: 10
+                                        }} component={Link} to={`/manage/bot/${bot.id}`}>
+                                            관리
+                                        </AnimatedButton>
+                                    }
                                 </motion.div>
                             </Grid>
                             <AnimatedGrid variants={{hidden: {y: 50, opacity: 0}, visible: {y: 0, opacity: 1, transition: {delay: 0.8}}}} initial="hidden" aniamte="visible" item xs={12} md={8}>
@@ -120,6 +131,9 @@ query ($id: String!) {
             tag
             avatarURL
         }
+    }
+    me {
+        id
     }
 }
 `, {

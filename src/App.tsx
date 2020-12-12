@@ -17,6 +17,7 @@ import {AnimatePresence} from "framer-motion";
 import AnimateView from "./util/animateView";
 import ManagePanel from "./views/ManagePanel";
 import ManageBot from "./views/ManagePanel/Bot";
+import Discord from "./views/Discord";
 
 const theme = createMuiTheme({
     palette: {
@@ -47,6 +48,7 @@ class App extends React.Component {
                                     <Route exact path="/user/:id" component={AnimateView(ProfileView)}/>
                                     <Route exact path="/manage" component={AnimateView(ManagePanel)}/>
                                     <Route exact path="/manage/bot/:id" component={AnimateView(ManageBot)}/>
+                                    <Route exact path="/discord" component={AnimateView(Discord)} />
                                     <Route component={AnimateView(NotFound)}/>
                                 </Switch>
                             </AnimatePresence>

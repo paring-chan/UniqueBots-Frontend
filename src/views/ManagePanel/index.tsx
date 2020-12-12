@@ -40,6 +40,7 @@ class ManagePanel extends React.Component<any, any> {
                 {
                     this.props.data.loading ? '로드중...' : (
                         <div>
+                            <Typography variant="h4">봇 관리</Typography>
                             <AnimatedGrid container variants={{
                                 hidden: {},
                                 visible: {
