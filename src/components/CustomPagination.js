@@ -36,7 +36,7 @@ const CustomPagination = ({delay, ...args}) => {
                     pagination.items.map((item, key) => {
                         return <AnimatedPaginationItem variants={{
                             hidden: {
-                                y: 20,
+                                y: -20,
                                 opacity: 0
                             },
                             visible: {

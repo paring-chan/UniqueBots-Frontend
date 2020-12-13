@@ -9,7 +9,7 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow
+    TableRow, Typography
 } from "@material-ui/core";
 import GREEN from "@material-ui/core/colors/green";
 import RED from "@material-ui/core/colors/red";
@@ -170,6 +170,7 @@ class Users extends Component {
     render() {
         return (
             <>
+                <Typography variant="h4">유저 관리</Typography>
                 {
                     this.props.data.loading ? <CircularProgress/> : (
                         this.props.data.error ? '에러' : this.props.data.admin && this.props.data.admin.users.length !== 0 ?

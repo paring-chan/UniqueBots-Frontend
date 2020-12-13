@@ -8,7 +8,7 @@ import {
     TableCell,
     TableContainer, TableFooter,
     TableHead, TablePagination,
-    TableRow
+    TableRow, Typography
 } from "@material-ui/core";
 import moment from 'moment';
 import _ from 'lodash'
@@ -40,6 +40,7 @@ class Audits extends React.Component<any, any> {
 
         return (
             <div>
+                <Typography variant="h4">감사로그</Typography>
                 {
                     loading ? <CircularProgress/> : (
                         <div>
