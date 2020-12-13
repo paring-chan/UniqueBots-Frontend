@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {gql, graphql} from "@apollo/react-hoc";
-import {Button, Chip, CircularProgress, Grid, Paper, TextField, Typography, withStyles} from "@material-ui/core";
+import {Button, Chip, CircularProgress, Grid, Paper, Typography, withStyles} from "@material-ui/core";
 import markdownIt from 'markdown-it'
-import {Add, Check, Close, Favorite} from "@material-ui/icons";
+import {Check, Favorite} from "@material-ui/icons";
 import GREEN from '@material-ui/core/colors/green'
 import BLUE from '@material-ui/core/colors/blue'
 import {motion} from "framer-motion";
@@ -12,9 +12,17 @@ import {apolloClient} from "../../apollo";
 import {withSnackbar} from "notistack";
 import RED from "@material-ui/core/colors/red";
 import styles from '../../markdown.scss'
+import hljs from 'highlight.js'
 
 const md = markdownIt({
-    html: false
+    html: false,
+    highlight: (str, lang) => {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return `<div style="display: block;overflow-x: auto;padding: 0.5em;background: #002b36;color: #839496;">${hljs.highlight(lang, str).value}</div>`
+            } catch (e) {}
+        }
+    }
 })
 
 const AnimatedGrid = motion.custom(Grid)

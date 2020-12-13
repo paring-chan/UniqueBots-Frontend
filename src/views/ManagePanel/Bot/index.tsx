@@ -14,9 +14,6 @@ import {
 import {gql} from "@apollo/client";
 import {apolloClient} from "../../../apollo";
 import {withSnackbar} from "notistack";
-import {Alert, AlertTitle} from "@material-ui/lab";
-import {Link as RouterLink} from 'react-router-dom'
-import {Link} from '@material-ui/core'
 import {motion} from 'framer-motion'
 import {graphql} from "@apollo/react-hoc";
 
