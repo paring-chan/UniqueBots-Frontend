@@ -37,7 +37,7 @@ const UserMenu = ({user}) => {
                     <ListItemText primary="봇 추가하기"/>
                 </ListItem>
                 {
-                    user.admin && <ListItem button component={Link} to="/admin">
+                    user.admin && <ListItem button component={Link} to="/admin/users">
                         <ListItemIcon>
                             <Settings/>
                         </ListItemIcon>

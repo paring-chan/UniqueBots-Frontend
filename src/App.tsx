@@ -4,7 +4,7 @@ import HomePage from "./views/Home";
 import {createMuiTheme, CssBaseline, MuiThemeProvider} from "@material-ui/core";
 import Oauth2Callback from "./views/Oauth2Callback";
 import NotFound from "./views/NotFound";
-import AdminPage from "./views/Admin";
+// import AdminPage from "./views/Admin";
 import ManageBots from "./views/Admin/Bots";
 import Judges from "./views/Admin/Judges";
 import AddBotPage from "./views/AddBot";
@@ -38,7 +38,7 @@ class App extends React.Component {
                                     <Route exact path="/" component={AnimateView(HomePage)}/>
                                     {/*@ts-ignore*/}
                                     <Route exact path="/callback/auth" component={AnimateView(Oauth2Callback)}/>
-                                    <Route exact path="/admin" component={AnimateView(AdminPage)}/>
+                                    {/*<Route exact path="/admin" component={AnimateView(AdminPage)}/>*/}
                                     <Route exact path="/admin/bots" component={AnimateView(ManageBots)}/>
                                     <Route exact path="/admin/judges" component={AnimateView(Judges)}/>
                                     <Route exact path="/admin/users" component={AnimateView(Users)}/>

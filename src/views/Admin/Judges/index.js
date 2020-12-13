@@ -9,7 +9,7 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow, TextField
+    TableRow, TextField, Typography
 } from "@material-ui/core";
 import GREEN from "@material-ui/core/colors/green";
 import RED from "@material-ui/core/colors/red";
@@ -204,6 +204,7 @@ class Judges extends Component {
     render() {
         return (
             <>
+                <Typography variant="h4">심사 관리</Typography>
                 {
                     this.props.data.loading ? <CircularProgress/> : (
                         this.props.data.error ? '에러' : this.props.data.admin && this.props.data.admin.judges.length !== 0 ?

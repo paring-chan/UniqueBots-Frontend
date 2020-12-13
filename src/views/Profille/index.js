@@ -65,7 +65,7 @@ function ProfileView({match: {params: {id}}, classes}) {
                                 staggerChildren: 0.1
                             }
                         }
-                    }} initial="hidden" animate="visible" container>
+                    }} initial="hidden" animate="visible" container spacing={2}>
                         <AnimatedGrid variants={{
                             hidden: {
                                 y: 40,
@@ -75,9 +75,7 @@ function ProfileView({match: {params: {id}}, classes}) {
                                 y: 0,
                                 opacity: 1
                             }
-                        }} item xs={12} md={6} style={{
-                            textAlign: 'center'
-                        }}>
+                        }} item xs={12} md={6} className={classes.profileImageArea}>
                             <img src={user.avatarURL} alt="Profile Image" width={250} height={250}/>
                         </AnimatedGrid>
                         <AnimatedGrid className={classes.profileArea} variants={{
@@ -191,6 +189,14 @@ export default withStyles(theme => ({
     profileArea: {
         [theme.breakpoints.up('md')]: {
             textAlign: 'left'
+        },
+        [theme.breakpoints.down('sm')]: {
+            textAlign: 'center'
+        }
+    },
+    profileImageArea: {
+        [theme.breakpoints.up('md')]: {
+            textAlign: 'right'
         },
         [theme.breakpoints.down('sm')]: {
             textAlign: 'center'

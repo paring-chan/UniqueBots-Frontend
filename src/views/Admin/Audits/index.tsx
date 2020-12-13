@@ -6,27 +6,37 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableContainer,
-    TableHead,
+    TableContainer, TableFooter,
+    TableHead, TablePagination,
     TableRow
 } from "@material-ui/core";
 import moment from 'moment';
+import _ from 'lodash'
 
 class Audits extends React.Component<any, any> {
     componentDidMount() {
         this.props.data.refetch()
     }
 
+    state = {
+        page: 0,
+        rowsPerPage: 10
+    }
+
     render() {
         const {loading, admin} = this.props.data
 
-        let arr = []
+        let arr: any[] = []
+
+        const {rowsPerPage, page} = this.state
 
         if (admin?.audits) {
-            for (const audit of admin.audits) {
-                arr.push(audit)
+            for (const i of admin.audits) {
+                arr.push(i)
             }
         }
+
+        const emptyRows = rowsPerPage - Math.min(rowsPerPage, arr.length - page * rowsPerPage)
 
         return (
             <div>
@@ -46,17 +56,32 @@ class Audits extends React.Component<any, any> {
                                             </TableHead>
                                             <TableBody>
                                                 {
-                                                    arr.sort((a: any, b: any) => {
-                                                        return a.timestamp > b.timestamp ? -1 : a.timestamp < b.timestamp ? 1 : 0
-                                                    }).map((audit: any, key: number) => (
-                                                        <TableRow key={key}>
+                                                    (
+                                                        rowsPerPage > 0 ? arr.sort((a: any, b: any) => {
+                                                            return a.timestamp > b.timestamp ? -1 : a.timestamp < b.timestamp ? 1 : 0
+                                                        }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : arr
+                                                    ).map((audit, i) => (
+                                                        <TableRow key={i}>
                                                             <TableCell>{audit.user.tag}</TableCell>
                                                             <TableCell>{moment(Number(audit.timestamp)).format('YYYY-MM-DD HH:mm:ss')}</TableCell>
                                                             <TableCell>{audit.msg}</TableCell>
                                                         </TableRow>
                                                     ))
                                                 }
+                                                {emptyRows > 0 && (
+                                                    <TableRow style={{ height: 53 * emptyRows }}>
+                                                        <TableCell colSpan={6} />
+                                                    </TableRow>
+                                                )}
                                             </TableBody>
+                                            <TableFooter>
+                                                <TableRow>
+                                                    <TablePagination count={admin.audits.length}
+                                                                     onChangePage={(event, page1) => this.setState({page: page1})}
+                                                                     page={this.state.page}
+                                                                     rowsPerPage={this.state.rowsPerPage} onChangeRowsPerPage={e => this.setState({rowsPerPage: parseInt(e.target.value, 10)})}/>
+                                                </TableRow>
+                                            </TableFooter>
                                         </Table>
                                     </TableContainer>
                                 ) : '감사로그를 가져올 수 없습니다.'
@@ -70,15 +95,15 @@ class Audits extends React.Component<any, any> {
 }
 
 export default graphql(gql`
-query {
-    admin {
-        audits {
-            msg
-            user {
-                tag
+    query {
+        admin {
+            audits {
+                msg
+                user {
+                    tag
+                }
+                timestamp
             }
-            timestamp
         }
     }
-}
 `)(Audits)
