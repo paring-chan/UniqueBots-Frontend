@@ -6,7 +6,6 @@ import clsx from "clsx";
 import ExperimentsDialog from "./ExperimentsDialog";
 
 const useStyles = makeStyles(theme => {
-    console.log(theme.mixins.toolbar)
     return {
         fab: {
             position: 'absolute',

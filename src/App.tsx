@@ -1,6 +1,6 @@
 import * as React from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import HomePage from "./views/Home";
+import HomePage from "./views/Home/index";
 import {createMuiTheme, CssBaseline, MuiThemeProvider} from "@material-ui/core";
 import Oauth2Callback from "./views/Oauth2Callback";
 import NotFound from "./views/NotFound";
