@@ -99,7 +99,8 @@ class ManageBot extends Component<any, any> {
                 description: b.description,
                 invite: b.invite,
                 prefix: b.prefix,
-                lock: b.locked
+                lock: b.locked,
+                library: b.library
             })
         }
     }
