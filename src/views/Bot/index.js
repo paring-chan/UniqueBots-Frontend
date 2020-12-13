@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import {gql, graphql} from "@apollo/react-hoc";
 import {Button, Chip, CircularProgress, Grid, Paper, TextField, Typography, withStyles} from "@material-ui/core";
 import markdownIt from 'markdown-it'
-import {Check} from "@material-ui/icons";
+import {Add, Check, Close, Favorite} from "@material-ui/icons";
 import GREEN from '@material-ui/core/colors/green'
 import BLUE from '@material-ui/core/colors/blue'
 import {motion} from "framer-motion";
 import {Link} from "react-router-dom";
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {apolloClient} from "../../apollo";
+import {withSnackbar} from "notistack";
+import RED from "@material-ui/core/colors/red";
 
 const md = markdownIt({
     html: false
@@ -104,18 +106,46 @@ class BotInfo extends Component {
                                     className={classes.textMdCenter}>
                                     <AnimatedChip variants={chipVariants} className={classes.chip}
                                                   label={`서버 ${bot.guilds}개`} color="primary"/>
+                                    <AnimatedChip variants={chipVariants} className={classes.chip}
+                                                  label={`라이브러리: ${bot.library}`} color="primary"/>
+                                    <AnimatedChip variants={chipVariants} className={classes.chip}
+                                                  label={`하트 수: ${bot.heartCount}`} clickable style={{
+                                        [!bot.heartClicked && 'borderColor']: RED["500"],
+                                        [!bot.heartClicked && 'color']: RED["500"],
+                                        [bot.heartClicked && 'background']: RED["500"]
+                                    }}
+                                                  icon={<Favorite style={{color: !bot.heartClicked && RED["500"]}}/>}
+                                                  variant="outlined" onClick={async () => {
+                                        if (!this.props.data.me) return
+                                        await apolloClient.query(
+                                            {
+                                                query: gql`
+                                                    query($id: String!) {
+                                                        bot(id: $id) {
+                                                        toggleHeart
+                                                        }
+                                                    }
+`,
+                                                variables: {
+                                                    id: bot.id
+                                                }
+                                            }
+                                        )
+
+                                        return this.props.data.refetch()
+                                    }}/>
                                     {bot.discordVerified &&
                                     <AnimatedChip variants={chipVariants} className={classes.chip} icon={<Check/>}
                                                   label="디스코드에서 인증됨" style={{backgroundColor: GREEN.A400}}/>}
                                 </motion.div>
                                 <motion.div
                                     variants={{visible: {transition: {staggerChildren: 0.1, delayChildren: 0.6}}}}
-                                    initial="hidden" animate="visible">
+                                    initial="hidden" animate="visible" className={classes.textMdCenter}>
                                     <AnimatedButton variants={chipVariants} variant="outlined" style={{
                                         borderColor: BLUE.A400,
                                         color: BLUE.A400,
                                         marginRight: 10
-                                    }} href={bot.invite} target="_blank">
+                                    }} href={bot.invite} target="_blank" disabled={bot.locked}>
                                         초대하기
                                     </AnimatedButton>
                                     {
@@ -128,7 +158,9 @@ class BotInfo extends Component {
                                                 관리
                                             </AnimatedButton>
                                             <CopyToClipboard text={bot.token}>
-                                                <AnimatedButton variants={chipVariants} variant="outlined" style={{
+                                                <AnimatedButton
+                                                    onClick={() => this.props.enqueueSnackbar('복사되었습니다!', {variant: 'success'})}
+                                                    variants={chipVariants} variant="outlined" style={{
                                                     borderColor: GREEN.A400,
                                                     color: GREEN.A400,
                                                     marginRight: 10
@@ -183,7 +215,7 @@ class BotInfo extends Component {
     }
 }
 
-export default graphql(gql`
+export default withSnackbar(graphql(gql`
     query ($id: String!) {
         bot(id: $id) {
             avatar
@@ -191,13 +223,15 @@ export default graphql(gql`
             description
             guilds
             id
-            id
+            library
             locked
             invite
             token
             discordVerified
             prefix
             status
+            heartCount
+            heartClicked
             tag
             owner {
                 id
@@ -231,4 +265,4 @@ export default graphql(gql`
     chip: {
         margin: theme.spacing(0.5)
     }
-}))(BotInfo))
+}))(BotInfo)))

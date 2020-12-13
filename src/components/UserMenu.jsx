@@ -8,7 +8,7 @@ const UserMenu = ({user}) => {
 
     return (
         <>
-            <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
+            <IconButton style={{marginLeft: 10}} onClick={e => setAnchorEl(e.currentTarget)}>
                 <Person/>
             </IconButton>
             <Popover open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
