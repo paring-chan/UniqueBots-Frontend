@@ -19,6 +19,9 @@ import ManagePanel from "./views/ManagePanel";
 import ManageBot from "./views/ManagePanel/Bot";
 import Discord from "./views/Discord";
 import ExperimentsMenu from "./components/ExperimentsMenu";
+import {hot} from "react-hot-loader";
+
+declare const module: any
 
 const theme = createMuiTheme({
     palette: {
@@ -62,4 +65,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default hot(module)(App)
