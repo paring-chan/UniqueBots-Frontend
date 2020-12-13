@@ -11,7 +11,6 @@ import {
     TableRow, Typography
 } from "@material-ui/core";
 import moment from 'moment';
-import _ from 'lodash'
 
 class Audits extends React.Component<any, any> {
     componentDidMount() {

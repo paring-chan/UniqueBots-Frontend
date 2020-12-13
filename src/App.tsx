@@ -18,6 +18,7 @@ import AnimateView from "./util/animateView";
 import ManagePanel from "./views/ManagePanel";
 import ManageBot from "./views/ManagePanel/Bot";
 import Discord from "./views/Discord";
+import ExperimentsMenu from "./components/ExperimentsMenu";
 
 const theme = createMuiTheme({
     palette: {
@@ -30,6 +31,7 @@ class App extends React.Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <CssBaseline/>
+                <ExperimentsMenu/>
                 <BrowserRouter>
                     <LayoutProvider>
                         <Route render={({location}) => (
