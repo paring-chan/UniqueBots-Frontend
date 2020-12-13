@@ -11,6 +11,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {apolloClient} from "../../apollo";
 import {withSnackbar} from "notistack";
 import RED from "@material-ui/core/colors/red";
+import styles from '../../markdown.scss'
 
 const md = markdownIt({
     html: false
@@ -203,7 +204,7 @@ class BotInfo extends Component {
                                 visible: {y: 0, opacity: 1, transition: {delay: 0.8}}
                             }} initial="hidden" aniamte="visible" item xs={12} md={8}>
                                 <Paper style={{padding: 10}}>
-                                    <div className="markdown-body"
+                                    <div className={styles.md}
                                          dangerouslySetInnerHTML={{__html: this.state.description || 'Compiling..'}}/>
                                 </Paper>
                             </AnimatedGrid>

@@ -29,7 +29,7 @@ class SearchPage extends Component {
                 <IconButton onClick={() => this.setState({open: true})}>
                     <Search/>
                 </IconButton>
-                <Dialog fullScreen open={this.state.open}>
+                <Dialog fullScreen open={this.state.open} keepMounted>
                     <AppBar color="inherit" position="sticky">
                         <Toolbar>
                             <InputBase fullWidth placeholder="검색어를 입력하세요.."

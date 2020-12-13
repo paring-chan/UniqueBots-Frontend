@@ -4,6 +4,7 @@ import App from './App';
 import {ApolloProvider} from "@apollo/client";
 import {apolloClient} from "./apollo";
 import {SnackbarProvider} from "notistack";
+import './markdown.scss'
 
 ReactDOM.render(
     <SnackbarProvider>

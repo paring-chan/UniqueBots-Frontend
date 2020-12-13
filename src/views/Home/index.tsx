@@ -41,7 +41,7 @@ class HomePage extends Component<any, any> {
     render() {
         return (
             <>
-                <Typography variant="h5">봇 랭킹(서버수)</Typography>
+                <Typography variant="h5">봇 랭킹(하트수)</Typography>
                 {
                     !this.props.data.loading && this.props.data.bots ? <AnimatedGrid container variants={{
                         hidden: {},
@@ -103,7 +103,7 @@ class HomePage extends Component<any, any> {
 
 export default graphql(gql`
     query ($page: Int) {
-        bots(sort: servers, page: $page) {
+        bots(sort: hearts, page: $page) {
             pages
             result {
                 id

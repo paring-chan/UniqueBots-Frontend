@@ -1,0 +1,15 @@
+.md {
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+  a {
+    color: #4181ff;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  hr {
+    border-color: #fff;
+  }
+}
