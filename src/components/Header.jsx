@@ -17,8 +17,8 @@ const Header = ({beforeTitle=null}) => {
                 boxShadow: 'none'
             }}>
                 <Toolbar style={{
-                    paddingLeft: 10,
-                    paddingRight: 10
+                    paddingLeft: 30,
+                    paddingRight: 30
                 }}>
                     {beforeTitle}
                     <Typography component={Link} to="/" style={{

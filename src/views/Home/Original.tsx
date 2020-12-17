@@ -40,8 +40,11 @@ class HomePage extends Component<any, any> {
 
     render() {
         return (
-            <>
-                <Typography variant="h5">봇 랭킹(하트수)</Typography>
+            <div style={{paddingLeft: 30, paddingRight: 30}}>
+                <Typography style={{
+                    paddingBottom: 10,
+                    paddingTop: 20,
+                }} variant="h5">봇 랭킹(하트수)</Typography>
                 {
                     !this.props.data.loading && this.props.data.bots ? <AnimatedGrid container variants={{
                         hidden: {},
@@ -62,11 +65,11 @@ class HomePage extends Component<any, any> {
                                     <CardContent style={{
                                         flexGrow: 1
                                     }}>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            <Avatar src={it.avatar}/>
+                                        <Typography gutterBottom variant="h5" component="h2" style={{marginBottom: 10}}>
+                                            <Avatar style={{marginBottom: 5}} src={it.avatar}/>
                                             {it.tag}
                                         </Typography>
-                                        <Chip label={`서버 ${it.guilds}개`} style={{pointerEvents: 'none'}}
+                                        <Chip label={`서버 ${it.guilds}개`} style={{pointerEvents: 'none', paddingLeft: 5, paddingRight: 5, borderRadius: 3, marginBottom: 10}}
                                               icon={<Dns/>}/>
                                         <Typography variant="body2" color="textSecondary" component="p">
                                             {it.brief}
@@ -96,7 +99,7 @@ class HomePage extends Component<any, any> {
                         </AnimatedGrid>
                     </AnimatedGrid> : <CircularProgress/>
                 }
-            </>
+            </div>
         );
     }
 }
