@@ -1,7 +1,8 @@
 import React from 'react';
-import * as Icons from '@material-ui/icons'
+import * as Icons from '@mdi/js'
 import {Avatar, Tooltip} from "@material-ui/core";
 import {motion} from "framer-motion";
+import Icon from "@mdi/react";
 
 const MotionTooltip = motion.custom(Tooltip)
 
@@ -17,7 +18,7 @@ const variants = {
 }
 
 const UserBadge = ({badge}) => {
-    const Icon = Icons[badge.icon]
+    const icon = Icons[badge.icon.replace(/-([a-z])/g, g => g[1].toUpperCase())]
 
     return (
         <MotionTooltip variants={variants} title={badge.name} style={{
@@ -25,7 +26,7 @@ const UserBadge = ({badge}) => {
             marginRight: 10
         }}>
             <Avatar>
-                {Icon ? <Icon/> : badge.id.toUpperCase()}
+                {icon ? <Icon path={icon}/> : badge.id.toUpperCase()}
             </Avatar>
         </MotionTooltip>
     );
