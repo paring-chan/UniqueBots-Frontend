@@ -18,7 +18,7 @@ const variants = {
 }
 
 const UserBadge = ({badge}) => {
-    const icon = Icons[badge.icon.replace(/-([a-z])/g, g => g[1].toUpperCase())]
+    const icon = Icons[('mdi' + badge.icon).replace(/-([a-z])/g, g => g[1].toUpperCase())]
 
     return (
         <MotionTooltip variants={variants} title={badge.name} style={{
