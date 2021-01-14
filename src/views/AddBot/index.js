@@ -185,8 +185,8 @@ class AddBotPage extends Component {
                                 this.setState({description: e.target.value.slice(0, 1500)})
                             }}/>
                         </AnimatedGrid>
-                        <AnimatedGrid item variants={itemVariants}>
-                            <Button type="submit">등록하기</Button>
+                        <AnimatedGrid xs={12} item variants={itemVariants}>
+                            <Button style={{width: '100%'}} type="submit">등록하기</Button>
                         </AnimatedGrid>
                     </AnimatedGrid>
                 </form>
