@@ -219,8 +219,8 @@ class ManageBot extends Component<any, any> {
                                                       onChange={e => this.setState({lock: (e.target as any).checked})}>
                                             <Switch checked={this.state.lock}/> 봇 잠금처리(잠금처리 하면 봇 초대가 비활성화 됩니다)
                                         </AnimatedGrid>
-                                        <AnimatedGrid item variants={itemVariants}>
-                                            <Button type="submit">수정하기</Button>
+                                        <AnimatedGrid item variants={itemVariants} xs={12}>
+                                            <Button color="primary" variant="contained" style={{width: '100%'}} type="submit">수정하기</Button>
                                         </AnimatedGrid>
                                     </AnimatedGrid>
                                 </form>
